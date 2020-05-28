@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/autoload.php';
 
 $fb = new Facebook\Facebook([
-	'app_id' => '256348282348141',
+	'app_id' => 'todo_app_id',
 	'app_secret' => 'todo_api_secret',
 	'default_graph_version' => 'v2.10',
 	]);
@@ -55,7 +55,7 @@ $fb = new Facebook\Facebook([
   var_dump($tokenMetadata);
   
   // Validation (these will throw FacebookSDKException's when they fail)
-  $tokenMetadata->validateAppId('256348282348141');
+  $tokenMetadata->validateAppId('todo_app_id');
   // If you know the user ID this access token belongs to, you can validate it here
   //$tokenMetadata->validateUserId('123');
   $tokenMetadata->validateExpiration();

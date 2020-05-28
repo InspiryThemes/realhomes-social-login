@@ -2,7 +2,7 @@
 
 require_once get_template_directory() . '/common/partials/vendor/autoload.php';
 $fb = new Facebook\Facebook([
-	'app_id' => '256348282348141',
+	'app_id' => 'todo_app_id',
 	'app_secret' => 'todo_api_secret',
 	'default_graph_version' => 'v2.10',
 	'default_access_token' => 'access_token'
