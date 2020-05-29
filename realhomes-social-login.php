@@ -46,6 +46,33 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 			$this->plugin_name = 'realhomes-social-login';
 			$this->version     = '1.0.0';
 
+			$this->define_constants();
+
+			echo RSL_PLUGIN_DIR;
+
+		}
+
+		/**
+		 * Define constants.
+		 */
+		protected function define_constants() {
+
+			// Plugin version.
+			if ( ! defined( 'RSL_VERSION' ) ) {
+				define( 'RSL_VERSION', $this->version );
+			}
+
+			// Plugin directory path.
+			if ( ! defined( 'RSL_PLUGIN_DIR' ) ) {
+				define( 'RSL_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+			}
+		}
+
+		/**
+		 * Social networks libraries.
+		 */
+		public function load_libraries() {
+			require_once ERE_PLUGIN_DIR . 'includes/facebook/autoload.php';  // Facebook SDK.
 		}
 
 	}
