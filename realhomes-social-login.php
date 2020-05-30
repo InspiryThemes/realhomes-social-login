@@ -47,8 +47,7 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 			$this->version     = '1.0.0';
 
 			$this->define_constants();
-
-			echo RSL_PLUGIN_DIR;
+			$this->load_libraries();
 
 		}
 
@@ -72,7 +71,7 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 		 * Social networks libraries.
 		 */
 		public function load_libraries() {
-			require_once ERE_PLUGIN_DIR . 'includes/facebook/autoload.php';  // Facebook SDK.
+			require_once RSL_PLUGIN_DIR . 'includes/facebook/autoload.php';  // Facebook SDK.
 		}
 
 	}
@@ -93,3 +92,21 @@ function realhomes_social_login() {
 
 // Get RSL Running.
 realhomes_social_login();
+
+
+/**
+ * Helper functions.
+ */
+function rsl_facebook_app_keys() {
+	$app_id     = get_option( 'realhomes_social_login_app_id' );
+	$app_secret = get_option( 'realhomes_social_login_app_secret' );
+
+	if ( empty( $app_id ) || empty( $app_secret ) ) {
+		return null;
+	} else {
+		return array(
+			'app_id'     => $app_id,
+			'app_secret' => $app_secret,
+		);
+	}
+}
