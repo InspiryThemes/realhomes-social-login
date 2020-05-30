@@ -5,6 +5,8 @@ require_once __DIR__ . '/../facebook/autoload.php';
 
 // $fb_app_keys = rsl_facebook_app_keys();
 $fb = new Facebook\Facebook([
+	'app_id'                => 'app_id',
+	'app_secret'            => 'app_secret',
 	'default_graph_version' => 'v2.10',
 ]);
 
