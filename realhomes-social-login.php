@@ -92,13 +92,18 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 		 * Enqueue public scripts.
 		 */
 		public function enqueue_public_scripts() {
-			wp_enqueue_script(
+
+			wp_register_script(
 				'realhomes_social_login',
 				RSL_PLUGIN_URL . 'js/frontend.js',
 				array( 'jquery' ),
 				$this->version,
 				true
 			);
+
+			wp_localize_script( 'realhomes_social_login', 'rsl_data', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+
+			wp_enqueue_script( 'realhomes_social_login' );
 		}
 
 		/**
