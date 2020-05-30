@@ -50,6 +50,7 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 			$this->load_libraries();
 			$this->load_assets();
 
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_scripts' ) );
 		}
 
 		/**
@@ -66,6 +67,11 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 			if ( ! defined( 'RSL_PLUGIN_DIR' ) ) {
 				define( 'RSL_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 			}
+
+			// Plugin directory path.
+			if ( ! defined( 'RSL_PLUGIN_URL' ) ) {
+				define( 'RSL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+			}
 		}
 
 		/**
@@ -80,6 +86,26 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 		 */
 		public function load_assets() {
 			require_once RSL_PLUGIN_DIR . 'includes/social-login-buttons.php';
+		}
+
+		/**
+		 * Enqueue public scripts.
+		 */
+		public function enqueue_public_scripts() {
+			wp_enqueue_script(
+				'realhomes_social_login',
+				RSL_PLUGIN_URL . 'js/frontend.js',
+				array( 'jquery' ),
+				$this->version,
+				true
+			);
+		}
+
+		/**
+		 * Enqueue admin scripts.
+		*/
+		public function enqueue_admin_scripts() {
+			// add_action( 'admin_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		}
 	}
 
