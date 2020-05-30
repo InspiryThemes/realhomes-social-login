@@ -48,6 +48,7 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 
 			$this->define_constants();
 			$this->load_libraries();
+			$this->load_assets();
 
 		}
 
@@ -71,9 +72,15 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 		 * Social networks libraries.
 		 */
 		public function load_libraries() {
-			require_once RSL_PLUGIN_DIR . 'includes/facebook/autoload.php';  // Facebook SDK.
+			require_once RSL_PLUGIN_DIR . 'includes/libs/facebook/autoload.php';  // Facebook SDK.
 		}
 
+		/**
+		 * Load assets of the plugin.
+		 */
+		public function load_assets() {
+			require_once RSL_PLUGIN_DIR . 'includes/social-login-buttons.php';
+		}
 	}
 
 } // End if class_exists check.
