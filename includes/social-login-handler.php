@@ -37,7 +37,7 @@ if ( ! function_exists( 'rsl_facebook_oauth_url' ) ) {
 			echo wp_json_encode(
 				array(
 					'success' => false,
-					'message' => 'Hello World!',
+					'message' => esc_html__( 'Facebook library is not loaded.', 'realhomes-social-login' ),
 				)
 			);
 		}

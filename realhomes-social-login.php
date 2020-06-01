@@ -87,6 +87,7 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 		public function load_assets() {
 			require_once RSL_PLUGIN_DIR . 'includes/social-login-handler.php';
 			require_once RSL_PLUGIN_DIR . 'includes/social-login-buttons.php';
+			require_once RSL_PLUGIN_DIR . 'includes/social-login-callback.php';
 		}
 
 		/**
