@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../facebook/autoload.php';
 if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
 	rsl_facebook_login( $_GET );
 } elseif ( isset( $_GET['code'] ) ) {
@@ -11,99 +10,75 @@ if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
 	}
 }
 
-$fb = new Facebook\Facebook([
-	'app_id'                => 'app_id',
-	'app_secret'            => 'app_secret',
-	'default_graph_version' => 'v2.10',
-]);
-
-  $helper = $fb->getRedirectLoginHelper();
-
-if (isset($_GET['state'])) {
-    $helper->getPersistentDataHandler()->set('state', $_GET['state']);
-}
-
-
-  
-  try {
-	$accessToken = $helper->getAccessToken();
-  } catch(Facebook\Exception\ResponseException $e) {
-	// When Graph returns an error
-	echo 'Graph returned an error: ' . $e->getMessage();
-	exit;
-  } catch(Facebook\Exception\SDKException $e) {
-	// When validation fails or other local issues
-	echo 'Facebook SDK returned an error: ' . $e->getMessage();
-	exit;
-  }
-  
-  if (! isset($accessToken)) {
-	if ($helper->getError()) {
-	  header('HTTP/1.0 401 Unauthorized');
-	  echo "Error: " . $helper->getError() . "\n";
-	  echo "Error Code: " . $helper->getErrorCode() . "\n";
-	  echo "Error Reason: " . $helper->getErrorReason() . "\n";
-	  echo "Error Description: " . $helper->getErrorDescription() . "\n";
-	} else {
-	  header('HTTP/1.0 400 Bad Request');
-	  echo 'Bad request';
+function rsl_facebook_login() {
+	if ( session_status() === PHP_SESSION_NONE ) {
+		session_start();
 	}
-	exit;
-  }
-  
-// Logged in.  
-  $_SESSION['rsl_facebook_token'] = (string) $accessToken->getValue();
+	// TODO: ensure FB class is already loaded and no need to load here.
+	require_once __DIR__ . '/../facebook/autoload.php';
 
-$fb_app_keys = rsl_facebook_app_keys();
-$fb = new Facebook\Facebook([
-	'app_id'     => esc_html( $fb_app_keys['app_id'] ),
-	'app_secret' => esc_html( $fb_app_keys['app_secret'] ),
-	'default_graph_version' => 'v2.10',
-	'default_access_token' => $_SESSION['rsl_facebook_token'],
-]);
+	$fb_app_keys = rsl_facebook_app_keys();
+	$fb_args     = array(
+		'app_id'                => $fb_app_keys['app_id'],
+		'app_secret'            => $fb_app_keys['app_secret'],
+		'default_graph_version' => 'v2.10',
+	);
 
-  try {
-	// Returns a `Facebook\Response` object
-	$response = $fb->get('/me?fields=id,email,name,first_name,last_name,picture');
-  } catch(Facebook\Exception\ResponseException $e) {
-	echo 'Graph returned an error: ' . $e->getMessage();
-	exit;
-  } catch(Facebook\Exception\SDKException $e) {
-	echo 'Facebook SDK returned an error: ' . $e->getMessage();
-	exit;
-  }
-  $user = $response->getGraphUser();
+	$fb = new Facebook\Facebook( $fb_args );
 
-echo ($user['first_name']) . '<br>';
-echo ($user['last_name']) . '<br>';
-echo ($user['email']) . '<br>';
-echo ($user['picture']['url']) . '<br><br><br><br>';
-print_r($user);// $fb_app_keys = rsl_facebook_app_keys();
-$fb = new Facebook\Facebook([
-	'app_id'     => esc_html( $fb_app_keys['app_id'] ),
-	'app_secret' => esc_html( $fb_app_keys['app_secret'] ),
-	'default_graph_version' => 'v2.10',
-	'default_access_token' => $_SESSION['rsl_facebook_token']
-]);
+	$helper = $fb->getRedirectLoginHelper();
 
-  try {
-	// Returns a `Facebook\Response` object
-	$response = $fb->get('/me?fields=id,email,name,first_name,last_name,picture');
-  } catch(Facebook\Exception\ResponseException $e) {
-	echo 'Graph returned an error: ' . $e->getMessage();
-	exit;
-  } catch(Facebook\Exception\SDKException $e) {
-	echo 'Facebook SDK returned an error: ' . $e->getMessage();
-	exit;
-  }
-  $user = $response->getGraphUser();
+	if ( isset( $_GET['state'] ) ) {
+		$helper->getPersistentDataHandler()->set( 'state', $_GET['state'] );
+	}
 
-echo ($user['first_name']) . '<br>';
-echo ($user['last_name']) . '<br>';
-echo ($user['email']) . '<br>';
-echo ($user['picture']['url']) . '<br><br><br><br>';
-print_r($user);
+	try {
+		$access_token_obj = $helper->getAccessToken();
+	} catch ( Facebook\Exception\ResponseException $e ) {
+		// When Graph returns an error.
+		echo 'Graph returned an error: ' . esc_html( $e->getMessage() );
+		exit;
+	} catch ( Facebook\Exception\SDKException $e ) {
+		// When validation fails or other local issues.
+		echo 'Facebook SDK returned an error: ' . esc_html( $e->getMessage() );
+		exit;
+	}
 
-  // User is logged in with a long-lived access token.
-  // You can redirect them to a members-only page.
-//   header('Location: https://rh.o');
+	if ( ! isset( $access_token_obj ) ) {
+		if ( $helper->getError() ) {
+			header( 'HTTP/1.0 401 Unauthorized' );
+			echo 'Error: ' . esc_html( $helper->getError() ) . '\n';
+			echo 'Error Code: ' . esc_html( $helper->getErrorCode() ) . '\n';
+			echo 'Error Reason: ' . esc_html( $helper->getErrorReason() ) . '\n';
+			echo 'Error Description: ' . esc_html( $helper->getErrorDescription() ) . '\n';
+		} else {
+			header( 'HTTP/1.0 400 Bad Request' );
+			echo 'Bad request';
+		}
+		exit;
+	}
+
+	$access_token = (string) $access_token_obj->getValue();
+
+	$fb = new Facebook\Facebook(
+		array(
+			'app_id'                => esc_html( $fb_app_keys['app_id'] ),
+			'app_secret'            => esc_html( $fb_app_keys['app_secret'] ),
+			'default_graph_version' => 'v2.10',
+			'default_access_token'  => $access_token,
+		)
+	);
+
+	try {
+		// Returns a `Facebook\Response` object.
+		$response = $fb->get( '/me?fields=id,email,name,first_name,last_name,picture' );
+	} catch ( Facebook\Exception\ResponseException $e ) {
+		echo 'Graph returned an error: ' . esc_html( $e->getMessage() );
+		exit;
+	} catch ( Facebook\Exception\SDKException $e ) {
+		echo 'Facebook SDK returned an error: ' . esc_html( $e->getMessage() );
+		exit;
+	}
+
+	$user = $response->getGraphUser();
+}
