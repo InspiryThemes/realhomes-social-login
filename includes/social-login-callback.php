@@ -67,7 +67,7 @@ function rsl_facebook_login() {
 
 	try {
 		// Returns a `Facebook\Response` object.
-		$response = $fb->get( '/me?fields=id,email,name' );
+		$response = $fb->get( '/me?fields=id,email,name,first_name,last_name' );
 	} catch ( Facebook\Exception\ResponseException $e ) {
 		echo 'Graph returned an error: ' . esc_html( $e->getMessage() );
 		exit;
@@ -80,31 +80,56 @@ function rsl_facebook_login() {
 
 	//TODO: first check if user is not registered already with the user email.
 
-	$email         = $user['email'];
-	$username      = explode( '@', $email );
-	$username      = $username[0];
-	$display_name  = $user['name'];
-	$profile_image = 'https://graph.facebook.com/' . $user['id'] . '/picture?width=300&height=300';
-	$password      = $user['id'];
+	$register_cred['user_email']    = $user['email'];
+	$register_cred['username']      = explode( '@', $register_cred['email'] );
+	$register_cred['user_login']    = $register_cred['username'][0];
+	$register_cred['display_name']  = $user['name'];
+	$register_cred['first_name']    = $user['first_name'];
+	$register_cred['last_name']     = $user['last_name'];
+	$register_cred['profile_image'] = 'https://graph.facebook.com/' . $user['id'] . '/picture?width=300&height=300';
+	$register_cred['user_pass']     = $user['id'];
 
-	rsl_social_register( $email, $username, $display_name, $password, $profile_image );
+	rsl_social_register( $register_cred );
 
-	// $creds                  = array();
-	// $creds['user_login']    = $username;
-	// $creds['user_password'] = $password;
-	// $creds['remember']      = true;
-	// $user_signon            = wp_signon( $creds, false );
+	$login_creds               = array();
+	$login_creds['user_login'] = $register_cred['user_login'];
+	$login_creds['user_pass']  = $register_cred['user_pass'];
+	$login_creds['remember']   = true;
+	$user_signon               = wp_signon( $login_creds, false );
 
-	// if ( is_wp_error( $user_signon ) ) {
-	// 	wp_safe_redirect( home_url() );
-	// 	exit;
-	// } else {
-	// 	// TODO: get the user members page dynamically.
-	// 	wp_safe_redirect( 'https://rh.o/edit-profile/' );
-	// 	exit;
-	// }
+	if ( is_wp_error( $user_signon ) ) {
+		wp_safe_redirect( home_url() );
+		exit;
+	} else {
+		// TODO: get the user members page dynamically.
+		wp_safe_redirect( 'https://rh.o/edit-profile/' );
+		exit;
+	}
 }
 
-function rsl_social_register( $email, $username, $display_name, $password, $profile_image ) {
-	var_dump( $email, $username, $display_name, $password, $profile_image );
+function rsl_social_register( $register_cred  ) {
+
+	// Register the user.
+	$user_register = wp_insert_user( $register_cred );
+
+	if ( ! is_wp_error( $user_register ) ) {
+
+		// User notification function exists in plugin.
+		if ( class_exists( 'Easy_Real_Estate' ) ) {
+			// Send email notification to newly registered user and admin.
+			ere_new_user_notification( $user_register, $user_register['user_pass'] );
+		}
+
+		// if ( inspiry_is_user_sync_enabled() ) {
+		// 	$role       = $_POST['user_role'];
+		// 	$user_roles = inspiry_user_sync_roles();
+
+		// 	if ( array_key_exists( $role, $user_roles ) ) {
+
+		// 		update_user_meta( $user_register, 'inspiry_user_role', $role );
+		// 		inspiry_insert_role_post( $user_register, $role );
+		// 	}
+		// }
+
+	}
 }
