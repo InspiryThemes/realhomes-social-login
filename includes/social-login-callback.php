@@ -1,8 +1,16 @@
 <?php
 
 require_once __DIR__ . '/../facebook/autoload.php';
+if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
+	rsl_facebook_login( $_GET );
+} elseif ( isset( $_GET['code'] ) ) {
+	rsl_google_login();
+} else {
+	if ( ! is_user_logged_in() ) {
+		wp_safe_redirect( home_url() );
+	}
+}
 
-// $fb_app_keys = rsl_facebook_app_keys();
 $fb = new Facebook\Facebook([
 	'app_id'                => 'app_id',
 	'app_secret'            => 'app_secret',
