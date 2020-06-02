@@ -78,33 +78,40 @@ function rsl_facebook_login() {
 
 	$user = $response->getGraphUser();
 
-	//TODO: first check if user is not registered already with the user email.
-
 	$register_cred['user_email']    = $user['email'];
-	$register_cred['username']      = explode( '@', $register_cred['email'] );
-	$register_cred['user_login']    = $register_cred['username'][0];
+	$register_cred['user_login']    = explode( '@', $user['email'] );
+	$register_cred['user_login']    = $register_cred['user_login'][0];
 	$register_cred['display_name']  = $user['name'];
 	$register_cred['first_name']    = $user['first_name'];
 	$register_cred['last_name']     = $user['last_name'];
 	$register_cred['profile_image'] = 'https://graph.facebook.com/' . $user['id'] . '/picture?width=300&height=300';
 	$register_cred['user_pass']     = $user['id'];
 
-	rsl_social_register( $register_cred );
+	$user_registered = rsl_social_register( $register_cred );
 
-	$login_creds               = array();
-	$login_creds['user_login'] = $register_cred['user_login'];
-	$login_creds['user_pass']  = $register_cred['user_pass'];
-	$login_creds['remember']   = true;
-	$user_signon               = wp_signon( $login_creds, false );
+	if ( $user_registered ) {
+
+		$login_creds                  = array();
+		$login_creds['user_login']    = $register_cred['user_login'];
+		$login_creds['user_password'] = $register_cred['user_pass'];
+		$login_creds['remember']      = true;
+
+		rsl_social_login( $login_creds );
+	}
+
+}
+
+function rsl_social_login( $login_creds ) {
+
+	$user_signon = wp_signon( $login_creds, false );
 
 	if ( is_wp_error( $user_signon ) ) {
 		wp_safe_redirect( home_url() );
-		exit;
 	} else {
 		// TODO: get the user members page dynamically.
 		wp_safe_redirect( 'https://rh.o/edit-profile/' );
-		exit;
 	}
+	exit;
 }
 
 function rsl_social_register( $register_cred  ) {
@@ -117,7 +124,7 @@ function rsl_social_register( $register_cred  ) {
 		// User notification function exists in plugin.
 		if ( class_exists( 'Easy_Real_Estate' ) ) {
 			// Send email notification to newly registered user and admin.
-			ere_new_user_notification( $user_register, $user_register['user_pass'] );
+			ere_new_user_notification( $user_register, $register_cred['user_pass'] );
 		}
 
 		// if ( inspiry_is_user_sync_enabled() ) {
@@ -131,5 +138,8 @@ function rsl_social_register( $register_cred  ) {
 		// 	}
 		// }
 
+		return true;
 	}
+
+	return false;
 }
