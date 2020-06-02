@@ -1,7 +1,7 @@
 <?php
 
 if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
-	rsl_facebook_login( $_GET );
+	add_action( 'init', 'rsl_facebook_login' );
 } elseif ( isset( $_GET['code'] ) ) {
 	rsl_google_login();
 }
