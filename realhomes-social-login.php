@@ -78,7 +78,9 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 		 * Social networks libraries.
 		 */
 		public function load_libraries() {
-			require_once RSL_PLUGIN_DIR . 'includes/libs/facebook/autoload.php';  // Facebook SDK.
+			require_once RSL_PLUGIN_DIR . 'includes/libs/facebook/autoload.php';  // Facebook PHP SDK.
+			require_once RSL_PLUGIN_DIR . 'includes/libs/google/Google_Client.php';  // Google PHP SDK.
+			require_once RSL_PLUGIN_DIR . 'includes/libs/google/contrib/Google_Oauth2Service.php';
 		}
 
 		/**

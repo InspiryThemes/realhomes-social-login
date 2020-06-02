@@ -19,7 +19,7 @@
             complete: function(){
                 console.log('completed!');
             },
-            success: function (response) { 
+            success: function (response) {
                if(response.success){
 				 window.location.replace(response.oauth_url);
 			   }
