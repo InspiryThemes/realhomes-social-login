@@ -152,3 +152,20 @@ function rsl_facebook_app_keys() {
 		);
 	}
 }
+
+function rsl_google_app_creds() {
+
+	$google_client_id     = get_option( 'rsl_google_app_client_id' );
+	$google_client_secret = get_option( 'rsl_google_app_client_secret' );
+	$google_developer_key = get_option( 'rsl_google_app_developer_key' );
+
+	if ( empty( $google_client_id ) || empty( $google_client_secret ) || empty( $google_developer_key ) ) {
+		return null;
+	} else {
+		return array(
+			'client_id'     => $google_client_id,
+			'client_secret' => $google_client_secret,
+			'developer_key' => $google_developer_key,
+		);
+	}
+}
