@@ -9,12 +9,46 @@
 if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
 	add_action( 'init', 'rsl_facebook_login' );
 } elseif ( isset( $_GET['code'] ) ) {
-	add_action( 'init', 'rsl_google_login' );
+	add_action( 'init', 'rsl_google_oauth_login' );
+}
+
+if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
+	/**
+	 * Google oauth login.
+	 */
+	function rsl_google_oauth_login() {
+
+		$allowed_html = array();
+
+		$google_app_creds     = rsl_google_app_creds();
+		$google_client_id     = $google_app_creds['client_id'];
+		$google_client_secret = $google_app_creds['client_secret'];
+		$google_developer_key = $google_app_creds['developer_key'];
+		// $google_redirect_url  = home_url();
+		$google_redirect_url  = 'http://localhost:3000/'; // TODO: change to default home url.
+
+		$google_client = new Google_Client();
+		$google_client->setApplicationName( 'Login to' . get_bloginfo( 'name' ) );
+		$google_client->setClientId( $google_client_id );
+		$google_client->setClientSecret( $google_client_secret );
+		$google_client->setDeveloperKey( $google_developer_key );
+		$google_client->setRedirectUri( $google_redirect_url );
+		$google_client->setScopes( array( 'email', 'profile' ) );
+
+		$google_oauth_v2 = new Google_Oauth2Service( $google_client );
+		$code = sanitize_text_field( wp_unslash( $_GET['code'] ) );
+		$google_client->authenticate( $code );
+
+		if ( $google_client->getAccessToken() ) {
+			$user            = $google_oauth_v2->userinfo->get();
+			print_r( $user );
+		}
+	}
 }
 
 if ( ! function_exists( 'rsl_facebook_login' ) ) {
 	/**
-	 * Facebook social login.
+	 * Facebook profile login.
 	 */
 	function rsl_facebook_login() {
 

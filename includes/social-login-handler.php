@@ -62,18 +62,18 @@ if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 			$google_client_secret = $google_app_creds['client_secret'];
 			$google_developer_key = $google_app_creds['developer_key'];
 			// $google_redirect_url  = home_url();
-			$google_redirect_url  = 'https://fahid.inspiryzone.com/realhomes/';
+			$google_redirect_url  = 'http://localhost:3000/'; // TODO: change to default home url.
 
 			$client = new Google_Client();
 
-			$client->setApplicationName( 'Login to RealHomes' );
+			$client->setApplicationName( 'Login to' . get_bloginfo( 'name' ) );
 			$client->setClientId( $google_client_id );
 			$client->setClientSecret( $google_client_secret );
 			$client->setDeveloperKey( $google_developer_key );
 			$client->setRedirectUri( $google_redirect_url );
 			$client->setScopes( array( 'email', 'profile' ) );
 
-			// $google_oauthV2 = new Google_Oauth2Service($client);
+			// $google_oauthV2 = new Google_Oauth2Service($client); // TODO: remove this line of code after testing.
 			$oauth_url = $client->createAuthUrl();
 
 			echo wp_json_encode(
