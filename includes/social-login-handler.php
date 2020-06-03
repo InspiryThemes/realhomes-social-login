@@ -45,10 +45,10 @@ if ( ! function_exists( 'rsl_facebook_oauth_url' ) ) {
 
 		wp_die();
 	}
-}
 
-add_action( 'wp_ajax_nopriv_rsl_facebook_oauth_url', 'rsl_facebook_oauth_url' );
-add_action( 'wp_ajax_rsl_facebook_oauth_url', 'rsl_facebook_oauth_url' );
+	add_action( 'wp_ajax_nopriv_rsl_facebook_oauth_url', 'rsl_facebook_oauth_url' );
+	add_action( 'wp_ajax_rsl_facebook_oauth_url', 'rsl_facebook_oauth_url' );
+}
 
 if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 	/**
@@ -95,7 +95,8 @@ if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 
 		wp_die();
 	}
+
+	add_action( 'wp_ajax_nopriv_rsl_google_oauth_url', 'rsl_google_oauth_url' );
+	add_action( 'wp_ajax_rsl_google_oauth_url', 'rsl_google_oauth_url' );
 }
 
-add_action( 'wp_ajax_nopriv_rsl_google_oauth_url', 'rsl_google_oauth_url' );
-add_action( 'wp_ajax_rsl_google_oauth_url', 'rsl_google_oauth_url' );

@@ -7,7 +7,7 @@
  */
 
 if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
-	add_action( 'init', 'rsl_facebook_login' );
+	add_action( 'init', 'rsl_facebook_oauth_login' );
 } elseif ( isset( $_GET['code'] ) ) {
 	add_action( 'init', 'rsl_google_oauth_login' );
 }
@@ -66,11 +66,11 @@ if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
 	}
 }
 
-if ( ! function_exists( 'rsl_facebook_login' ) ) {
+if ( ! function_exists( 'rsl_facebook_oauth_login' ) ) {
 	/**
 	 * Facebook profile login.
 	 */
-	function rsl_facebook_login() {
+	function rsl_facebook_oauth_login() {
 
 		$fb_app_keys = rsl_facebook_app_keys();
 
