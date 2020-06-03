@@ -11,6 +11,7 @@ if ( ! function_exists( 'rsl_facebook_oauth_url' ) ) {
 	 */
 	function rsl_facebook_oauth_url() {
 
+		// TODO: separate these errors of library and keys.
 		if ( class_exists( 'Facebook\Facebook' ) && null !== rsl_facebook_app_keys() ) {
 
 			$fb_app_keys = rsl_facebook_app_keys();
@@ -61,8 +62,7 @@ if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 			$google_client_id     = $google_app_creds['client_id'];
 			$google_client_secret = $google_app_creds['client_secret'];
 			$google_developer_key = $google_app_creds['developer_key'];
-			// $google_redirect_url  = home_url();
-			$google_redirect_url  = 'http://localhost:3000/'; // TODO: change to default home url.
+			$google_redirect_url  = home_url();
 
 			$client = new Google_Client();
 
