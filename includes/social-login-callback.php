@@ -39,8 +39,29 @@ if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
 		$google_client->authenticate( $code );
 
 		if ( $google_client->getAccessToken() ) {
-			$user            = $google_oauth_v2->userinfo->get();
-			print_r( $user );
+
+			$user = $google_oauth_v2->userinfo->get();
+
+			$register_cred['user_email']    = $user['email'];
+			$register_cred['user_login']    = explode( '@', $user['email'] );
+			$register_cred['user_login']    = $register_cred['user_login'][0];
+			$register_cred['display_name']  = $user['name'];
+			$register_cred['first_name']    = isset( $user['given_name'] ) ? $user['given_name'] : '';
+			$register_cred['last_name']     = isset( $user['family_name'] ) ? $user['family_name'] : '';
+			$register_cred['profile_image'] = $user['picture'];
+			$register_cred['user_pass']     = $user['id'];
+
+			$user_registered = rsl_social_register( $register_cred );
+
+			if ( $user_registered ) {
+
+				$login_creds                  = array();
+				$login_creds['user_login']    = $register_cred['user_login'];
+				$login_creds['user_password'] = $register_cred['user_pass'];
+				$login_creds['remember']      = true;
+
+				rsl_social_login( $login_creds );
+			}
 		}
 	}
 }
