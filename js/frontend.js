@@ -22,6 +22,8 @@
             success: function (response) {
                if(response.success){
 				 window.location.replace(response.oauth_url);
+			   } else {
+				   console.log(response);
 			   }
             },
             error: function(error) {
