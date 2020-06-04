@@ -100,3 +100,22 @@ if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 	add_action( 'wp_ajax_rsl_google_oauth_url', 'rsl_google_oauth_url' );
 }
 
+if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
+	/**
+	 * Return the twitter login authorization url.
+	 */
+	function rsl_twitter_oauth_url() {
+
+		echo wp_json_encode(
+			array(
+				'success' => false,
+				'message' => esc_html__( 'Twitter library is not loaded.', 'realhomes-social-login' ),
+			)
+		);
+
+		wp_die();
+	}
+
+	add_action( 'wp_ajax_nopriv_rsl_twitter_oauth_url', 'rsl_twitter_oauth_url' );
+	add_action( 'wp_ajax_rsl_twitter_oauth_url', 'rsl_twitter_oauth_url' );
+}
