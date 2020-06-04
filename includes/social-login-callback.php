@@ -23,12 +23,13 @@ if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 
 			$consumer_key        = get_option( 'rsl_twitter_app_consumer_key' );
 			$consumer_secret     = get_option( 'rsl_twitter_app_consumer_secret' );
-			$access_token        = $_SESSION['oauth_token'];
-			$access_token_secret = $_SESSION['oauth_token_secret'];
+			$access_token        = get_option( 'rsl_twitter_current_oauth_token' );
+			$access_token_secret = get_option( 'rsl_twitter_current_oauth_token_secret' );
 
 			echo $access_token;
 			echo '<br>';
 			echo $access_token_secret;
+			echo '<br>';
 
 			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $access_token, $access_token_secret );
 			$user       = $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );

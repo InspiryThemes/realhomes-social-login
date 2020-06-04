@@ -118,8 +118,8 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
 			$request_token = $connection->oauth( 'oauth/request_token', array( 'oauth_callback' => $callback_url ) );
 
-			$_SESSION['oauth_token']        = $request_token['oauth_token'];
-			$_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
+			update_option( 'rsl_twitter_current_oauth_token', $request_token['oauth_token'] );
+			update_option( 'rsl_twitter_current_oauth_token_secret', $request_token['oauth_token_secret'] );
 
 			$oauth_url = $connection->url( 'oauth/authorize', array( 'oauth_token' => $request_token['oauth_token'] ) );
 
