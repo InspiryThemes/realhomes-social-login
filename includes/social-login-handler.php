@@ -110,11 +110,23 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 
 		if ( class_exists( 'Abraham\TwitterOAuth\TwitterOAuth' ) ) {
 
+			$consumer_key        = get_option( 'rsl_twitter_app_consumer_key' );
+			$consumer_secret     = get_option( 'rsl_twitter_app_consumer_secret' );
+			// $access_token        = get_option( 'rsl_twitter_app_access_token' );
+			// $access_token_secret = get_option( 'rsl_twitter_app_access_token_secret' );
 			$callback_url        = home_url();
 
 			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
 			$request_token = $connection->oauth( 'oauth/request_token', array( 'oauth_callback' => $callback_url ) );
 			$oauth_url     = $connection->url( 'oauth/authorize', array( 'oauth_token' => $request_token['oauth_token'] ) );
+
+			echo wp_json_encode(
+				array(
+					'success'   => true,
+					'oauth_url' => $oauth_url,
+					'message'   => esc_html__( 'Redirecting you to twitter for the authentication...', 'realhomes-social-login' ),
+				)
+			);
 
 		} else {
 			echo wp_json_encode(
