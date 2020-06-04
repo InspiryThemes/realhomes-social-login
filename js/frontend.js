@@ -21,11 +21,11 @@
             },
             success: function (response) {
 				console.log('success!');
-               if(response.success){
-				 window.location.replace(response.oauth_url);
-			   } else {
+            //    if(response.success){
+			// 	 window.location.replace(response.oauth_url);
+			//    } else {
 				   console.log(response);
-			   }
+			//    }
             },
             error: function(error) {
                 console.log(error);
