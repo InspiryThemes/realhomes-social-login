@@ -106,12 +106,24 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 	 */
 	function rsl_twitter_oauth_url() {
 
-		echo wp_json_encode(
-			array(
-				'success' => false,
-				'message' => esc_html__( 'Twitter library is not loaded.', 'realhomes-social-login' ),
-			)
-		);
+		// use Abraham\TwitterOAuth\TwitterOAuth;
+
+		if ( class_exists( 'Abraham\TwitterOAuth\TwitterOAuth' ) ) {
+
+			$callback_url        = home_url();
+
+			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
+			$request_token = $connection->oauth( 'oauth/request_token', array( 'oauth_callback' => $callback_url ) );
+			$oauth_url     = $connection->url( 'oauth/authorize', array( 'oauth_token' => $request_token['oauth_token'] ) );
+
+		} else {
+			echo wp_json_encode(
+				array(
+					'success' => false,
+					'message' => esc_html__( 'Twitter library is not loaded.', 'realhomes-social-login' ),
+				)
+			);
+		}
 
 		wp_die();
 	}
