@@ -109,16 +109,19 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 		// use Abraham\TwitterOAuth\TwitterOAuth;
 
 		if ( class_exists( 'Abraham\TwitterOAuth\TwitterOAuth' ) ) {
+			session_start();
 
-			$consumer_key        = get_option( 'rsl_twitter_app_consumer_key' );
-			$consumer_secret     = get_option( 'rsl_twitter_app_consumer_secret' );
-			// $access_token        = get_option( 'rsl_twitter_app_access_token' );
-			// $access_token_secret = get_option( 'rsl_twitter_app_access_token_secret' );
-			$callback_url        = home_url();
+			$consumer_key    = get_option( 'rsl_twitter_app_consumer_key' );
+			$consumer_secret = get_option( 'rsl_twitter_app_consumer_secret' );
+			$callback_url    = home_url();
 
 			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
 			$request_token = $connection->oauth( 'oauth/request_token', array( 'oauth_callback' => $callback_url ) );
-			$oauth_url     = $connection->url( 'oauth/authorize', array( 'oauth_token' => $request_token['oauth_token'] ) );
+
+			$_SESSION['oauth_token']        = $request_token['oauth_token'];
+			$_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
+
+			$oauth_url = $connection->url( 'oauth/authorize', array( 'oauth_token' => $request_token['oauth_token'] ) );
 
 			echo wp_json_encode(
 				array(
