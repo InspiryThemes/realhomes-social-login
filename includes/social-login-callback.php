@@ -22,20 +22,34 @@ if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 
 			$consumer_key        = get_option( 'rsl_twitter_app_consumer_key' );
 			$consumer_secret     = get_option( 'rsl_twitter_app_consumer_secret' );
-			$access_token        = get_option( 'rsl_twitter_app_access_token' );
-			$access_token_secret = get_option( 'rsl_twitter_app_access_token_secret' );
 
 			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
 			$request_token = $connection->oauth( 'oauth/access_token', array( 'oauth_consumer_key' => $consumer_key, 'oauth_token' => $_GET['oauth_token'], 'oauth_verifier' => $_GET['oauth_verifier'] ) );
 
 			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $request_token['oauth_token'], $request_token['oauth_token_secret'] );
-			$user       = $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
+			$user       = (array) $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
 
-			update_option( 'realhomes_option', $user );
+			$register_cred['user_email']    = $user['email'];
+			$register_cred['user_login']    = explode( '@', $user['email'] );
+			$register_cred['user_login']    = $register_cred['user_login'][0];
+			$register_cred['display_name']  = $user['name'];
+			$register_cred['first_name']    = explode( ' ', $user['name'] );
+			$register_cred['first_name']    = $register_cred['first_name'][0];
+			$register_cred['last_name']     = isset( $user['first_name'][1] ) ? $user['first_name'][1] : '';
+			$register_cred['profile_image'] = str_replace( '_normal', '_400x400', $user['profile_image_url_https'] );
+			$register_cred['user_pass']     = $user['id'];
 
-			echo "<pre>";
-			print_r($user);
-			echo "<pre>";
+			$user_registered = rsl_social_register( $register_cred );
+
+			if ( $user_registered ) {
+
+				$login_creds                  = array();
+				$login_creds['user_login']    = $register_cred['user_login'];
+				$login_creds['user_password'] = $register_cred['user_pass'];
+				$login_creds['remember']      = true;
+
+				rsl_social_login( $login_creds );
+			}
 	}
 }
 
