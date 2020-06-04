@@ -23,21 +23,45 @@ if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 
 			$consumer_key        = get_option( 'rsl_twitter_app_consumer_key' );
 			$consumer_secret     = get_option( 'rsl_twitter_app_consumer_secret' );
-			$access_token        = get_option( 'rsl_twitter_current_oauth_token' );
-			$access_token_secret = get_option( 'rsl_twitter_current_oauth_token_secret' );
 
-			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $access_token, $access_token_secret );
-			$user       = $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
+			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
+
+			$code = $connection->user_request(array(
+				'method' => 'POST',
+			   'url' => $connection->url('oauth/access_token', $_GET['oauth_token']),
+			   'params' => array(
+					  'oauth_verifier' => trim($_GET['oauth_verifier']),
+				  )
+				));
+		  
+			 if ($code == 200) {
+				  $oauth_creds = $connection->extract_params($tmhOAuth->response['response']); 
+				  echo '<pre>';print_r($oauth_creds);exit;
+		  
+		  
+			// 	$tmhOAuth->reconfigure(array_merge($tmhOAuth->config, array(
+			// 	   'token'  => $oauth_creds['oauth_token'],
+			// 		  'secret' => $oauth_creds['oauth_token_secret'],
+			//    )));
+		  
+			// $code = $tmhOAuth->user_request(array(
+			// 		'url' => $tmhOAuth->url('1.1/account/verify_credentials') 
+			//  ));
+		  
+		  
+
+			
+			// $user       = $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
 		//    $user1 = $connection->get("https://api.twitter.com/1.1/account/verify_credentials.json", ['include_email' => true]);
 			
-		echo $access_token;
-			echo '<br>';
-			echo $access_token_secret;
-			echo '<br>';
+		// echo $access_token;
+		// 	echo '<br>';
+		// 	echo $access_token_secret;
+		// 	echo '<br>';
 		
-		echo "<pre>";
-			print_r($user);
-			echo "<pre>";
+		// echo "<pre>";
+		// 	print_r($user);
+		// 	echo "<pre>";
 	}
 }
 
