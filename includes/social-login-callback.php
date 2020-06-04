@@ -26,15 +26,16 @@ if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 			$access_token        = get_option( 'rsl_twitter_current_oauth_token' );
 			$access_token_secret = get_option( 'rsl_twitter_current_oauth_token_secret' );
 
-			echo $access_token;
-			echo '<br>';
-			echo $access_token_secret;
-			echo '<br>';
-
 			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $access_token, $access_token_secret );
 			$user       = $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
 		//    $user1 = $connection->get("https://api.twitter.com/1.1/account/verify_credentials.json", ['include_email' => true]);
-			echo "<pre>";
+			
+		echo $access_token;
+			echo '<br>';
+			echo $access_token_secret;
+			echo '<br>';
+		
+		echo "<pre>";
 			print_r($user);
 			echo "<pre>";
 	}
