@@ -10,6 +10,33 @@ if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
 	add_action( 'init', 'rsl_facebook_oauth_login' );
 } elseif ( isset( $_GET['code'] ) ) {
 	add_action( 'init', 'rsl_google_oauth_login' );
+} elseif ( isset( $_GET['oauth_token'] ) && isset( $_GET['oauth_verifier'] ) ) {
+	add_action( 'init', 'rsl_twitter_oauth_login' );
+}
+
+if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
+	/**
+	 * Twitter oauth login.
+	 */
+	function rsl_twitter_oauth_login() {
+			session_start();
+
+			$consumer_key        = get_option( 'rsl_twitter_app_consumer_key' );
+			$consumer_secret     = get_option( 'rsl_twitter_app_consumer_secret' );
+			$access_token        = $_SESSION['oauth_token'];
+			$access_token_secret = $_SESSION['oauth_token_secret'];
+
+			echo $access_token;
+			echo '<br>';
+			echo $access_token_secret;
+
+			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $access_token, $access_token_secret );
+			$user       = $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
+		//    $user1 = $connection->get("https://api.twitter.com/1.1/account/verify_credentials.json", ['include_email' => true]);
+			echo "<pre>";
+			print_r($user);
+			echo "<pre>";
+	}
 }
 
 if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
@@ -18,7 +45,7 @@ if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
 	 */
 	function rsl_google_oauth_login() {
 
-		$allowed_html = array();
+		$allowed_html = array(); // TODO: remove this line of code if not needed.
 
 		$google_app_creds     = rsl_google_app_creds();
 		$google_client_id     = $google_app_creds['client_id'];
