@@ -25,17 +25,16 @@ if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 			$access_token        = get_option( 'rsl_twitter_app_access_token' );
 			$access_token_secret = get_option( 'rsl_twitter_app_access_token_secret' );
 
-			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $access_token, $access_token_secret );
-			$tokens       = $connection->oauth( 'oauth/access_token', array( 'oauth_consumer_key' => $consumer_key, 'oauth_token' => $_GET['oauth_token'], 'oauth_verifier' => $_GET['oauth_verifier'] ) );
-			// $user       = $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
-		//    $user1 = $connection->get("https://api.twitter.com/1.1/account/verify_credentials.json", ['include_email' => true]);
+			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $access_token, $access_token_secret );
+			$request_token = $connection->oauth( 'oauth/access_token', array( 'oauth_consumer_key' => $consumer_key, 'oauth_token' => $_GET['oauth_token'], 'oauth_verifier' => $_GET['oauth_verifier'] ) );
 
-			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $tokens['oauth_token'], $tokens['oauth_token_secret'] );
-			$user_2       = $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
+			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $request_token['oauth_token'], $request_token['oauth_token_secret'] );
+			$user       = $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
+
+			update_option( 'realhomes_option', $user );
 
 			echo "<pre>";
-			print_r($tokens);
-			print_r($user_2);
+			print_r($user);
 			echo "<pre>";
 	}
 }
