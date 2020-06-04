@@ -117,17 +117,13 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 
 			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
 			$request_token = $connection->oauth( 'oauth/request_token', array( 'oauth_callback' => $callback_url ) );
-
-			update_option( 'rsl_twitter_current_oauth_token', $request_token['oauth_token'] );
-			update_option( 'rsl_twitter_current_oauth_token_secret', $request_token['oauth_token_secret'] );
-
-			$oauth_url = $connection->url( 'oauth/authorize', array( 'oauth_token' => $request_token['oauth_token'] ) );
+			$oauth_url     = $connection->url( 'oauth/authorize', array( 'oauth_token' => $request_token['oauth_token'] ) );
 
 			echo wp_json_encode(
 				array(
 					'success'   => true,
 					'oauth_url' => $oauth_url,
-					'message'   => esc_html__( 'Redirecting you to twitter for the authentication...', 'realhomes-social-login' ),
+					'message'   => esc_html__( 'Redirecting you to Twitter for the authentication...', 'realhomes-social-login' ),
 				)
 			);
 
