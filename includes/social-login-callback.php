@@ -37,7 +37,9 @@ if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 			 if ($code == 200) {
 				  $oauth_creds = $connection->extract_params($tmhOAuth->response['response']); 
 				  echo '<pre>';print_r($oauth_creds);exit;
-		  
+			 } else {
+				 echo "Error 😔";
+			 }
 		  
 			// 	$tmhOAuth->reconfigure(array_merge($tmhOAuth->config, array(
 			// 	   'token'  => $oauth_creds['oauth_token'],
