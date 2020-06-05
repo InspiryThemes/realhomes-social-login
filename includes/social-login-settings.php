@@ -65,17 +65,44 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 					<?php settings_fields( 'rsl_settings_group' ); ?>
 					<table class="form-table">
 						<tbody>
-							<!-- Social Login enable disable -->
+
+							<tr>
+								<th>
+									<h3>Facebook</h3>
+								</th>
+							</tr>
+
 							<tr valign="top">
 								<th scope="row" valign="top">
-									<?php esc_html_e( 'Social Login', 'realhomes-social-login' ); ?>
+									<?php esc_html_e( 'Enable Facebook', 'realhomes-social-login' ); ?>
 								</th>
 								<td>
 									<?php
-										$enable_social_login = ! empty( $rsl_settings['enable_social_login'] ) ? $rsl_settings['enable_social_login'] : '';
+										$enable_social_login_facebook = ! empty( $rsl_settings['enable_social_login_facebook'] ) ? $rsl_settings['enable_social_login_facebook'] : '';
 									?>
-									<input id="rsl_settings[enable_social_login]" name="rsl_settings[enable_social_login]" type="checkbox" value="1" <?php checked( 1, $enable_social_login ); ?> />
-									<label class="description" for="rsl_settings[enable_social_login]"><?php esc_html_e( 'Enable Social Login on Login forms.', 'realhomes-social-login' ); ?></label>
+									<input id="rsl_settings[enable_social_login_facebook]" name="rsl_settings[enable_social_login_facebook]" type="checkbox" value="1" <?php checked( 1, $enable_social_login_facebook ); ?> />
+									<label class="description" for="rsl_settings[enable_social_login_facebook]"><?php esc_html_e( 'Enable facebook social login on login forms.', 'realhomes-social-login' ); ?></label>
+								</td>
+							</tr>
+
+							<!-- App ID -->
+							<tr valign="top">
+								<th scope="row" valign="top">
+									<?php esc_html_e( 'App ID*', 'realhomes-currency-switcher' ); ?>
+								</th>
+								<td>
+									<input id="rsl_settings[app_id]" name="rsl_settings[app_id]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['app_id'] ); ?>"/>
+									<p class="description"><label for="rsl_settings[app_id]"><?php echo sprintf( esc_html__( 'You can get your APP ID and Secret from %s.', 'realhomes-currency-switcher' ), '<a href="https://developers.facebook.com/docs/apps/" target="_blank">here</a>' ); ?></label></p>
+								</td>
+							</tr>
+
+							<!-- App Secret -->
+							<tr valign="top">
+								<th scope="row" valign="top">
+									<?php esc_html_e( 'App Secret*', 'realhomes-currency-switcher' ); ?>
+								</th>
+								<td>
+									<input id="rsl_settings[app_secret]" name="rsl_settings[app_secret]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['app_secret'] ); ?>"/>
 								</td>
 							</tr>
 
