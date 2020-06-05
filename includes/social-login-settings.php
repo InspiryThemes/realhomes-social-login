@@ -21,8 +21,12 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 	 */
 	class Realhomes_Social_Login_Settings {
 
+		/**
+		 * Hook the required settings functions when the class is initiated.
+		 */
 		public function __construct() {
-			
+			add_action( 'admin_init', array( $this, 'register_settings' ) );
+			add_action( 'admin_menu', array( $this, 'settings_page_menu' ) );
 		}
 
 		/**
