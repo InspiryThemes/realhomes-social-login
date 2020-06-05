@@ -241,14 +241,17 @@ if ( ! function_exists( 'rsl_social_register' ) ) {
 	function rsl_social_register( $register_cred ) {
 
 		// Register the user.
-		$user_register = wp_insert_user( $register_cred );
+		$user_id = wp_insert_user( $register_cred );
 
-		if ( ! is_wp_error( $user_register ) ) {
+		if ( ! is_wp_error( $user_id ) ) {
+
+			$profile_image_id = rsl_insert_image( $register_cred['profile_image'] );
+			update_user_meta( $user_id, 'profile_image_id', $profile_image_id );
 
 			// User notification function exists in plugin.
 			if ( class_exists( 'Easy_Real_Estate' ) ) {
 				// Send email notification to newly registered user and admin.
-				ere_new_user_notification( $user_register, $register_cred['user_pass'] );
+				ere_new_user_notification( $user_id, $register_cred['user_pass'] );
 			}
 
 			return true;
