@@ -157,6 +157,46 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 								</td>
 							</tr>
 
+							<tr>
+								<th>
+									<h3>Twitter</h3>
+								</th>
+							</tr>
+
+							<!-- Enable Twitter -->
+							<tr valign="top">
+								<th scope="row" valign="top">
+									<?php esc_html_e( 'Enable Twitter', 'realhomes-social-login' ); ?>
+								</th>
+								<td>
+									<?php
+										$enable_social_login_twitter = ! empty( $rsl_settings['enable_social_login_twitter'] ) ? $rsl_settings['enable_social_login_twitter'] : '';
+									?>
+									<input id="rsl_settings[enable_social_login_twitter]" name="rsl_settings[enable_social_login_twitter]" type="checkbox" value="1" <?php checked( 1, $enable_social_login_twitter ); ?> />
+									<label class="description" for="rsl_settings[enable_social_login_twitter]"><?php esc_html_e( 'Enable login/register with twitter on login forms.', 'realhomes-social-login' ); ?></label>
+								</td>
+							</tr>
+
+							<!-- Twitter App Consumer Key -->
+							<tr valign="top">
+								<th scope="row" valign="top">
+									<?php esc_html_e( 'Consumer Key*', 'realhomes-currency-switcher' ); ?>
+								</th>
+								<td>
+									<input id="rsl_settings[twitter_app_consumer_key]" name="rsl_settings[twitter_app_consumer_key]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['twitter_app_consumer_key'] ); ?>"/>
+								</td>
+							</tr>
+
+							<!-- Twitter App Consumer Secret -->
+							<tr valign="top">
+								<th scope="row" valign="top">
+									<?php esc_html_e( 'Consumer Secret*', 'realhomes-currency-switcher' ); ?>
+								</th>
+								<td>
+									<input id="rsl_settings[twitter_app_consumer_secret]" name="rsl_settings[twitter_app_consumer_secret]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['twitter_app_consumer_secret'] ); ?>"/>
+								</td>
+							</tr>
+
 						</tbody>
 					</table>
 
