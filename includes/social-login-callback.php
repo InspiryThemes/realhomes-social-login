@@ -14,14 +14,15 @@ if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
 	add_action( 'init', 'rsl_twitter_oauth_login' );
 }
 
+
 if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 	/**
 	 * Twitter oauth login.
 	 */
 	function rsl_twitter_oauth_login() {
 
-			$consumer_key        = get_option( 'rsl_twitter_app_consumer_key' );
-			$consumer_secret     = get_option( 'rsl_twitter_app_consumer_secret' );
+			$consumer_key    = get_option( 'rsl_twitter_app_consumer_key' );
+			$consumer_secret = get_option( 'rsl_twitter_app_consumer_secret' );
 
 			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
 			$request_token = $connection->oauth( 'oauth/access_token', array( 'oauth_consumer_key' => $consumer_key, 'oauth_token' => $_GET['oauth_token'], 'oauth_verifier' => $_GET['oauth_verifier'] ) );
@@ -76,7 +77,7 @@ if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
 		$google_client->setScopes( array( 'email', 'profile' ) );
 
 		$google_oauth_v2 = new Google_Oauth2Service( $google_client );
-		$code = sanitize_text_field( wp_unslash( $_GET['code'] ) );
+		$code            = sanitize_text_field( wp_unslash( $_GET['code'] ) );
 		$google_client->authenticate( $code );
 
 		if ( $google_client->getAccessToken() ) {
