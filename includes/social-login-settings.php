@@ -72,6 +72,7 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 								</th>
 							</tr>
 
+							<!-- Enable Facebook -->
 							<tr valign="top">
 								<th scope="row" valign="top">
 									<?php esc_html_e( 'Enable Facebook', 'realhomes-social-login' ); ?>
@@ -85,24 +86,74 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 								</td>
 							</tr>
 
-							<!-- App ID -->
+							<!-- Facebook App ID -->
 							<tr valign="top">
 								<th scope="row" valign="top">
 									<?php esc_html_e( 'App ID*', 'realhomes-currency-switcher' ); ?>
 								</th>
 								<td>
-									<input id="rsl_settings[app_id]" name="rsl_settings[app_id]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['app_id'] ); ?>"/>
-									<p class="description"><label for="rsl_settings[app_id]"><?php echo sprintf( esc_html__( 'You can get your APP ID and Secret from %s.', 'realhomes-currency-switcher' ), '<a href="https://developers.facebook.com/docs/apps/" target="_blank">here</a>' ); ?></label></p>
+									<input id="rsl_settings[facebook_app_id]" name="rsl_settings[facebook_app_id]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['facebook_app_id'] ); ?>"/>
+									<p class="description"><label for="rsl_settings[facebook_app_id]"><?php echo sprintf( esc_html__( 'You can get your APP ID and Secret from %s.', 'realhomes-currency-switcher' ), '<a href="https://developers.facebook.com/docs/apps/" target="_blank">here</a>' ); ?></label></p>
 								</td>
 							</tr>
 
-							<!-- App Secret -->
+							<!-- Facebook App Secret -->
 							<tr valign="top">
 								<th scope="row" valign="top">
 									<?php esc_html_e( 'App Secret*', 'realhomes-currency-switcher' ); ?>
 								</th>
 								<td>
-									<input id="rsl_settings[app_secret]" name="rsl_settings[app_secret]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['app_secret'] ); ?>"/>
+									<input id="rsl_settings[facebook_app_secret]" name="rsl_settings[facebook_app_secret]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['facebook_app_secret'] ); ?>"/>
+								</td>
+							</tr>
+
+							<tr>
+								<th>
+									<h3>Google</h3>
+								</th>
+							</tr>
+
+							<!-- Enable Google -->
+							<tr valign="top">
+								<th scope="row" valign="top">
+									<?php esc_html_e( 'Enable Google', 'realhomes-social-login' ); ?>
+								</th>
+								<td>
+									<?php
+										$enable_social_login_google = ! empty( $rsl_settings['enable_social_login_google'] ) ? $rsl_settings['enable_social_login_google'] : '';
+									?>
+									<input id="rsl_settings[enable_social_login_google]" name="rsl_settings[enable_social_login_google]" type="checkbox" value="1" <?php checked( 1, $enable_social_login_google ); ?> />
+									<label class="description" for="rsl_settings[enable_social_login_google]"><?php esc_html_e( 'Enable login/register with google on login forms.', 'realhomes-social-login' ); ?></label>
+								</td>
+							</tr>
+
+							<!-- Google API Key -->
+							<tr valign="top">
+								<th scope="row" valign="top">
+									<?php esc_html_e( 'API Key*', 'realhomes-currency-switcher' ); ?>
+								</th>
+								<td>
+									<input id="rsl_settings[google_app_api_key]" name="rsl_settings[google_app_api_key]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['google_app_api_key'] ); ?>"/>
+								</td>
+							</tr>
+
+							<!-- Google Client ID -->
+							<tr valign="top">
+								<th scope="row" valign="top">
+									<?php esc_html_e( 'Client ID*', 'realhomes-currency-switcher' ); ?>
+								</th>
+								<td>
+									<input id="rsl_settings[google_app_client_id]" name="rsl_settings[google_app_client_id]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['google_app_client_id'] ); ?>"/>
+								</td>
+							</tr>
+
+							<!-- Google Client Secret -->
+							<tr valign="top">
+								<th scope="row" valign="top">
+									<?php esc_html_e( 'Client Secret*', 'realhomes-currency-switcher' ); ?>
+								</th>
+								<td>
+									<input id="rsl_settings[google_app_client_secret]" name="rsl_settings[google_app_client_secret]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['google_app_client_secret'] ); ?>"/>
 								</td>
 							</tr>
 
