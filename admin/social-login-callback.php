@@ -2,6 +2,7 @@
 /**
  * Social login callback functions.
  *
+ * @since      1.0.0
  * @package    realhomes-social-login
  * @subpackage realhomes-social-login/admin
  */
@@ -44,24 +45,24 @@ if ( ! function_exists( 'rsl_facebook_oauth_login' ) ) {
 				$access_token_obj = $helper->getAccessToken();
 			} catch ( Facebook\Exception\ResponseException $e ) {
 				// When Graph returns an error.
-				echo 'Graph returned an error: ' . esc_html( $e->getMessage() );
+				echo esc_html__( 'Graph returned an error: ', 'realhomes-social-login' ) . esc_html( $e->getMessage() );
 				exit;
 			} catch ( Facebook\Exception\SDKException $e ) {
 				// When validation fails or other local issues.
-				echo 'Facebook SDK returned an error: ' . esc_html( $e->getMessage() );
+				echo esc_html__( 'Facebook SDK returned an error: ', 'realhomes-social-login' ) . esc_html( $e->getMessage() );
 				exit;
 			}
 
 			if ( ! isset( $access_token_obj ) ) {
 				if ( $helper->getError() ) {
 					header( 'HTTP/1.0 401 Unauthorized' );
-					echo 'Error: ' . esc_html( $helper->getError() ) . '\n';
-					echo 'Error Code: ' . esc_html( $helper->getErrorCode() ) . '\n';
-					echo 'Error Reason: ' . esc_html( $helper->getErrorReason() ) . '\n';
-					echo 'Error Description: ' . esc_html( $helper->getErrorDescription() ) . '\n';
+					echo esc_html__( 'Error: ', 'realhomes-social-login' ) . esc_html( $helper->getError() ) . '\n';
+					echo esc_html__( 'Error Code: ', 'realhomes-social-login' ) . esc_html( $helper->getErrorCode() ) . '\n';
+					echo esc_html__( 'Error Reason: ', 'realhomes-social-login' ) . esc_html( $helper->getErrorReason() ) . '\n';
+					echo esc_html__( 'Error Description: ', 'realhomes-social-login' ) . esc_html( $helper->getErrorDescription() ) . '\n';
 				} else {
 					header( 'HTTP/1.0 400 Bad Request' );
-					echo 'Bad request';
+					esc_html_e( 'Bad request', 'realhomes-social-login' );
 				}
 				exit;
 			}
@@ -81,10 +82,10 @@ if ( ! function_exists( 'rsl_facebook_oauth_login' ) ) {
 				// Returns a `Facebook\Response` object.
 				$response = $fb->get( '/me?fields=id,email,name,first_name,last_name' );
 			} catch ( Facebook\Exception\ResponseException $e ) {
-				echo 'Graph returned an error: ' . esc_html( $e->getMessage() );
+				echo esc_html__( 'Graph returned an error: ', 'realhomes-social-login' ) . esc_html( $e->getMessage() );
 				exit;
 			} catch ( Facebook\Exception\SDKException $e ) {
-				echo 'Facebook SDK returned an error: ' . esc_html( $e->getMessage() );
+				echo esc_html__( 'Facebook SDK returned an error: ', 'realhomes-social-login' ) . esc_html( $e->getMessage() );
 				exit;
 			}
 
@@ -133,7 +134,7 @@ if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
 			$google_redirect_url  = home_url();
 
 			$google_client = new Google_Client();
-			$google_client->setApplicationName( 'Login to' . get_bloginfo( 'name' ) );
+			$google_client->setApplicationName( esc_html__( 'Login to', 'realhomes-social-login' ) . get_bloginfo( 'name' ) );
 			$google_client->setClientId( $google_client_id );
 			$google_client->setClientSecret( $google_client_secret );
 			$google_client->setDeveloperKey( $google_developer_key );

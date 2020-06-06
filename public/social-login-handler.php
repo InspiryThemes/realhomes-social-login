@@ -97,7 +97,7 @@ if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 
 			$client = new Google_Client();
 
-			$client->setApplicationName( 'Login to' . get_bloginfo( 'name' ) );
+			$client->setApplicationName( esc_html__( 'Login to', 'realhomes-social-login' ) . get_bloginfo( 'name' ) );
 			$client->setClientId( $google_client_id );
 			$client->setClientSecret( $google_client_secret );
 			$client->setDeveloperKey( $google_developer_key );
