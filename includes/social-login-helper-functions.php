@@ -99,3 +99,26 @@ if ( ! function_exists( 'rsl_app_keys' ) ) {
 		return null;
 	}
 }
+
+if ( ! function_exists( 'rsl_is_enabled' ) ) {
+	/**
+	 * Check if a given social network is enabled or not.
+	 *
+	 * @param string $network Name of the network.
+	 */
+	function rsl_is_enabled( $network = '' ) {
+
+		if ( empty( $network ) ) {
+			return false;
+		}
+
+		$rsl_settings = get_option( 'rsl_settings' );
+
+		if ( 'facebook' === $network && isset( $rsl_settings['enable_social_login_facebook'] ) ||
+			'google' === $network && isset( $rsl_settings['enable_social_login_google'] ) ||
+			'twitter' === $network && isset( $rsl_settings['enable_social_login_twitter'] ) ) {
+			return true;
+		}
+		return false;
+	}
+}
