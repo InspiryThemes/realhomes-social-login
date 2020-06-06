@@ -47,7 +47,6 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 			$this->version     = '1.0.0';
 
 			$this->define_constants();
-			$this->load_libraries();
 			$this->load_assets();
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_scripts' ) );
@@ -75,22 +74,13 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 		}
 
 		/**
-		 * Social networks libraries.
-		 */
-		public function load_libraries() {
-
-			// Plugin settings.
-			require_once RSL_PLUGIN_DIR . 'includes/admin/realhomes-social-settings.php';
-
-		}
-
-		/**
 		 * Load assets of the plugin.
 		 */
 		public function load_assets() {
-			require_once RSL_PLUGIN_DIR . 'includes/social-login-helper-function.php';
-			require_once RSL_PLUGIN_DIR . 'includes/public/social-login-handler.php';
-			require_once RSL_PLUGIN_DIR . 'includes/admin/social-login-callback.php';
+			require_once RSL_PLUGIN_DIR . 'includes/social-login-helper-functions.php';
+			require_once RSL_PLUGIN_DIR . 'public/social-login-handler.php';
+			require_once RSL_PLUGIN_DIR . 'admin/social-login-callback.php';
+			require_once RSL_PLUGIN_DIR . 'admin/realhomes-social-login-settings.php';
 		}
 
 		/**
