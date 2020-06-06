@@ -11,6 +11,9 @@ if ( ! function_exists( 'rsl_facebook_oauth_url' ) ) {
 	 */
 	function rsl_facebook_oauth_url() {
 
+		// Facebook library.
+		require_once RSL_PLUGIN_DIR . 'includes/libs/facebook/autoload.php';
+
 		// TODO: separate these errors of library and keys.
 		if ( class_exists( 'Facebook\Facebook' ) && null !== rsl_facebook_app_keys() ) {
 
@@ -55,6 +58,10 @@ if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 	 * Return the facebook login authorization url.
 	 */
 	function rsl_google_oauth_url() {
+
+		// Google Client and Oauth libraries.
+		require_once RSL_PLUGIN_DIR . 'includes/libs/google/Google_Client.php';
+		require_once RSL_PLUGIN_DIR . 'includes/libs/google/contrib/Google_Oauth2Service.php';
 
 		if ( class_exists( 'Google_Client' ) && class_exists( 'Google_Oauth2Service' ) && null !== rsl_google_app_creds() ) {
 
@@ -105,6 +112,9 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 	 * Return the twitter login authorization url.
 	 */
 	function rsl_twitter_oauth_url() {
+
+		// Twitter library.
+		require_once RSL_PLUGIN_DIR . 'includes/libs/twitter/autoload.php';
 
 		if ( class_exists( 'Abraham\TwitterOAuth\TwitterOAuth' ) ) {
 			session_start();

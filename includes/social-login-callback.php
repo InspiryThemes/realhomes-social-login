@@ -3,7 +3,7 @@
  * Social login callback functions.
  *
  * @package    realhomes-social-login
- * @subpackage realhomes-social-login/includes
+ * @subpackage realhomes-social-login/admin
  */
 
 if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
@@ -15,102 +15,14 @@ if ( ( isset( $_GET['code'] ) && isset( $_GET['state'] ) ) ) {
 }
 
 
-if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
-	/**
-	 * Twitter oauth login.
-	 */
-	function rsl_twitter_oauth_login() {
-
-			$consumer_key    = get_option( 'rsl_twitter_app_consumer_key' );
-			$consumer_secret = get_option( 'rsl_twitter_app_consumer_secret' );
-
-			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
-			$request_token = $connection->oauth( 'oauth/access_token', array( 'oauth_consumer_key' => $consumer_key, 'oauth_token' => $_GET['oauth_token'], 'oauth_verifier' => $_GET['oauth_verifier'] ) );
-
-			$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $request_token['oauth_token'], $request_token['oauth_token_secret'] );
-			$user       = (array) $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
-
-			$register_cred['user_email']    = $user['email'];
-			$register_cred['user_login']    = explode( '@', $user['email'] );
-			$register_cred['user_login']    = $register_cred['user_login'][0];
-			$register_cred['display_name']  = $user['name'];
-			$register_cred['first_name']    = explode( ' ', $user['name'] );
-			$register_cred['first_name']    = $register_cred['first_name'][0];
-			$register_cred['last_name']     = isset( $user['first_name'][1] ) ? $user['first_name'][1] : '';
-			$register_cred['profile_image'] = str_replace( '_normal', '_400x400', $user['profile_image_url_https'] );
-			$register_cred['user_pass']     = $user['id'];
-
-			$user_registered = rsl_social_register( $register_cred );
-
-			if ( $user_registered ) {
-
-				$login_creds                  = array();
-				$login_creds['user_login']    = $register_cred['user_login'];
-				$login_creds['user_password'] = $register_cred['user_pass'];
-				$login_creds['remember']      = true;
-
-				rsl_social_login( $login_creds );
-			}
-	}
-}
-
-if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
-	/**
-	 * Google oauth login.
-	 */
-	function rsl_google_oauth_login() {
-
-		$google_app_creds     = rsl_google_app_creds();
-		$google_client_id     = $google_app_creds['client_id'];
-		$google_client_secret = $google_app_creds['client_secret'];
-		$google_developer_key = $google_app_creds['developer_key'];
-		$google_redirect_url  = home_url();
-
-		$google_client = new Google_Client();
-		$google_client->setApplicationName( 'Login to' . get_bloginfo( 'name' ) );
-		$google_client->setClientId( $google_client_id );
-		$google_client->setClientSecret( $google_client_secret );
-		$google_client->setDeveloperKey( $google_developer_key );
-		$google_client->setRedirectUri( $google_redirect_url );
-		$google_client->setScopes( array( 'email', 'profile' ) );
-
-		$google_oauth_v2 = new Google_Oauth2Service( $google_client );
-		$code            = sanitize_text_field( wp_unslash( $_GET['code'] ) );
-		$google_client->authenticate( $code );
-
-		if ( $google_client->getAccessToken() ) {
-
-			$user = $google_oauth_v2->userinfo->get();
-
-			$register_cred['user_email']    = $user['email'];
-			$register_cred['user_login']    = explode( '@', $user['email'] );
-			$register_cred['user_login']    = $register_cred['user_login'][0];
-			$register_cred['display_name']  = $user['name'];
-			$register_cred['first_name']    = isset( $user['given_name'] ) ? $user['given_name'] : '';
-			$register_cred['last_name']     = isset( $user['family_name'] ) ? $user['family_name'] : '';
-			$register_cred['profile_image'] = $user['picture'];
-			$register_cred['user_pass']     = $user['id'];
-
-			$user_registered = rsl_social_register( $register_cred );
-
-			if ( $user_registered ) {
-
-				$login_creds                  = array();
-				$login_creds['user_login']    = $register_cred['user_login'];
-				$login_creds['user_password'] = $register_cred['user_pass'];
-				$login_creds['remember']      = true;
-
-				rsl_social_login( $login_creds );
-			}
-		}
-	}
-}
-
 if ( ! function_exists( 'rsl_facebook_oauth_login' ) ) {
 	/**
 	 * Facebook profile login.
 	 */
 	function rsl_facebook_oauth_login() {
+
+		// Facebook library.
+		require_once RSL_PLUGIN_DIR . 'includes/libs/facebook/autoload.php';
 
 		$fb_app_keys = rsl_facebook_app_keys();
 
@@ -203,6 +115,104 @@ if ( ! function_exists( 'rsl_facebook_oauth_login' ) ) {
 			rsl_social_login( $login_creds );
 		}
 
+	}
+}
+
+if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
+	/**
+	 * Google oauth login.
+	 */
+	function rsl_google_oauth_login() {
+
+		// Google Client and Oauth libraries.
+		require_once RSL_PLUGIN_DIR . 'includes/libs/google/Google_Client.php';
+		require_once RSL_PLUGIN_DIR . 'includes/libs/google/contrib/Google_Oauth2Service.php';
+
+		$google_app_creds     = rsl_google_app_creds();
+		$google_client_id     = $google_app_creds['client_id'];
+		$google_client_secret = $google_app_creds['client_secret'];
+		$google_developer_key = $google_app_creds['developer_key'];
+		$google_redirect_url  = home_url();
+
+		$google_client = new Google_Client();
+		$google_client->setApplicationName( 'Login to' . get_bloginfo( 'name' ) );
+		$google_client->setClientId( $google_client_id );
+		$google_client->setClientSecret( $google_client_secret );
+		$google_client->setDeveloperKey( $google_developer_key );
+		$google_client->setRedirectUri( $google_redirect_url );
+		$google_client->setScopes( array( 'email', 'profile' ) );
+
+		$google_oauth_v2 = new Google_Oauth2Service( $google_client );
+		$code            = sanitize_text_field( wp_unslash( $_GET['code'] ) );
+		$google_client->authenticate( $code );
+
+		if ( $google_client->getAccessToken() ) {
+
+			$user = $google_oauth_v2->userinfo->get();
+
+			$register_cred['user_email']    = $user['email'];
+			$register_cred['user_login']    = explode( '@', $user['email'] );
+			$register_cred['user_login']    = $register_cred['user_login'][0];
+			$register_cred['display_name']  = $user['name'];
+			$register_cred['first_name']    = isset( $user['given_name'] ) ? $user['given_name'] : '';
+			$register_cred['last_name']     = isset( $user['family_name'] ) ? $user['family_name'] : '';
+			$register_cred['profile_image'] = $user['picture'];
+			$register_cred['user_pass']     = $user['id'];
+
+			$user_registered = rsl_social_register( $register_cred );
+
+			if ( $user_registered ) {
+
+				$login_creds                  = array();
+				$login_creds['user_login']    = $register_cred['user_login'];
+				$login_creds['user_password'] = $register_cred['user_pass'];
+				$login_creds['remember']      = true;
+
+				rsl_social_login( $login_creds );
+			}
+		}
+	}
+}
+
+if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
+	/**
+	 * Twitter oauth login.
+	 */
+	function rsl_twitter_oauth_login() {
+
+		// Twitter library.
+		require_once RSL_PLUGIN_DIR . 'includes/libs/twitter/autoload.php';
+
+		$consumer_key    = get_option( 'rsl_twitter_app_consumer_key' );
+		$consumer_secret = get_option( 'rsl_twitter_app_consumer_secret' );
+
+		$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
+		$request_token = $connection->oauth( 'oauth/access_token', array( 'oauth_consumer_key' => $consumer_key, 'oauth_token' => $_GET['oauth_token'], 'oauth_verifier' => $_GET['oauth_verifier'] ) );
+
+		$connection = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret, $request_token['oauth_token'], $request_token['oauth_token_secret'] );
+		$user       = (array) $connection->get( 'account/verify_credentials', array( 'include_email' => 'true' ) );
+
+		$register_cred['user_email']    = $user['email'];
+		$register_cred['user_login']    = explode( '@', $user['email'] );
+		$register_cred['user_login']    = $register_cred['user_login'][0];
+		$register_cred['display_name']  = $user['name'];
+		$register_cred['first_name']    = explode( ' ', $user['name'] );
+		$register_cred['first_name']    = $register_cred['first_name'][0];
+		$register_cred['last_name']     = isset( $user['first_name'][1] ) ? $user['first_name'][1] : '';
+		$register_cred['profile_image'] = str_replace( '_normal', '_400x400', $user['profile_image_url_https'] );
+		$register_cred['user_pass']     = $user['id'];
+
+		$user_registered = rsl_social_register( $register_cred );
+
+		if ( $user_registered ) {
+
+			$login_creds                  = array();
+			$login_creds['user_login']    = $register_cred['user_login'];
+			$login_creds['user_password'] = $register_cred['user_pass'];
+			$login_creds['remember']      = true;
+
+			rsl_social_login( $login_creds );
+		}
 	}
 }
 
