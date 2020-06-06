@@ -93,7 +93,7 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 								</th>
 								<td>
 									<input id="rsl_settings[facebook_app_id]" name="rsl_settings[facebook_app_id]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['facebook_app_id'] ); ?>"/>
-									<p class="description"><label for="rsl_settings[facebook_app_id]"><?php echo sprintf( esc_html__( 'You can get your APP ID and Secret from %s.', 'realhomes-currency-switcher' ), '<a href="https://developers.facebook.com/docs/apps/" target="_blank">here</a>' ); ?></label></p>
+									<p class="description"><label for="rsl_settings[facebook_app_id]"><?php echo sprintf( esc_html__( 'You can get Facebook APP ID and Secret from %s.', 'realhomes-currency-switcher' ), '<a href="https://developers.facebook.com/docs/apps/" target="_blank">here</a>' ); ?></label></p>
 								</td>
 							</tr>
 
@@ -134,6 +134,7 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 								</th>
 								<td>
 									<input id="rsl_settings[google_app_api_key]" name="rsl_settings[google_app_api_key]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['google_app_api_key'] ); ?>"/>
+									<p class="description"><label for="rsl_settings[google_app_client_id]"><?php echo sprintf( esc_html__( 'You can get Google API Key, Client ID and Client Secret from %s.', 'realhomes-currency-switcher' ), '<a href="https://developers.google.com/identity/sign-in/web/sign-in#create_authorization_credentials" target="_blank">here</a>' ); ?></label></p>
 								</td>
 							</tr>
 
@@ -184,6 +185,7 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 								</th>
 								<td>
 									<input id="rsl_settings[twitter_app_consumer_key]" name="rsl_settings[twitter_app_consumer_key]" type="text" class="regular-text" value="<?php echo esc_attr( $rsl_settings['twitter_app_consumer_key'] ); ?>"/>
+									<p class="description"><label for="rsl_settings[twitter_app_consumer_key]"><?php echo sprintf( esc_html__( 'You can create Twitter App and get its Consumer Key + Consumer Secret from %s.', 'realhomes-currency-switcher' ), '<a href="https://developer.twitter.com/en/apps" target="_blank">here</a>' ); ?></label></p>
 								</td>
 							</tr>
 
