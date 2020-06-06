@@ -157,18 +157,30 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 			$consumer_secret  = $twitter_app_keys['consumer_secret'];
 			$callback_url     = home_url( '/' );
 
-			$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
-			$request_token = $connection->oauth( 'oauth/request_token', array( 'oauth_callback' => $callback_url ) );
-			$oauth_url     = $connection->url( 'oauth/authorize', array( 'oauth_token' => $request_token['oauth_token'] ) );
+			try {
 
-			echo wp_json_encode(
-				array(
-					'success'   => true,
-					'oauth_url' => $oauth_url,
-					'message'   => esc_html__( 'Redirecting you to twitter for the authentication...', 'realhomes-social-login' ),
-				)
-			);
+				$connection    = new Abraham\TwitterOAuth\TwitterOAuth( $consumer_key, $consumer_secret );
+				$request_token = $connection->oauth( 'oauth/request_token', array( 'oauth_callback' => $callback_url ) );
+				$oauth_url     = $connection->url( 'oauth/authorize', array( 'oauth_token' => $request_token['oauth_token'] ) );
 
+				echo wp_json_encode(
+					array(
+						'success'   => true,
+						'oauth_url' => $oauth_url,
+						'message'   => esc_html__( 'Redirecting you to twitter for the authentication...', 'realhomes-social-login' ),
+					)
+				);
+
+			} catch ( Exception $e ) {
+				echo wp_json_encode(
+					array(
+						'success' => false,
+						'message' => $e->getMessage(),
+					)
+				);
+
+				wp_die();
+			}
 		} else {
 			echo wp_json_encode(
 				array(
