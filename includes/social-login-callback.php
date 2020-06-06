@@ -26,6 +26,8 @@ if ( ! function_exists( 'rsl_facebook_oauth_login' ) ) {
 
 		$fb_app_keys = rsl_facebook_app_keys();
 
+		if ( class_exists( 'Facebook\Facebook' ) )
+
 		if ( null === $fb_app_keys ) {
 			return;
 		}

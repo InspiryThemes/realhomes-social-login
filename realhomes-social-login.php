@@ -88,9 +88,9 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 		 * Load assets of the plugin.
 		 */
 		public function load_assets() {
-			require_once RSL_PLUGIN_DIR . 'includes/social-login-handler.php';
-			require_once RSL_PLUGIN_DIR . 'includes/social-login-buttons.php';
-			require_once RSL_PLUGIN_DIR . 'includes/social-login-callback.php';
+			require_once RSL_PLUGIN_DIR . 'includes/social-login-helper-function.php';
+			require_once RSL_PLUGIN_DIR . 'includes/public/social-login-handler.php';
+			require_once RSL_PLUGIN_DIR . 'includes/admin/social-login-callback.php';
 		}
 
 		/**
@@ -135,38 +135,3 @@ function realhomes_social_login() {
 
 // Get RSL Running.
 realhomes_social_login();
-
-
-/**
- * Helper functions.
- */
-function rsl_facebook_app_keys() {
-	$app_id     = get_option( 'realhomes_social_login_app_id' );
-	$app_secret = get_option( 'realhomes_social_login_app_secret' );
-
-	if ( empty( $app_id ) || empty( $app_secret ) ) {
-		return null;
-	} else {
-		return array(
-			'app_id'     => $app_id,
-			'app_secret' => $app_secret,
-		);
-	}
-}
-
-function rsl_google_app_creds() {
-
-	$google_client_id     = get_option( 'rsl_google_app_client_id' );
-	$google_client_secret = get_option( 'rsl_google_app_client_secret' );
-	$google_developer_key = get_option( 'rsl_google_app_developer_key' );
-
-	if ( empty( $google_client_id ) || empty( $google_client_secret ) || empty( $google_developer_key ) ) {
-		return null;
-	} else {
-		return array(
-			'client_id'     => $google_client_id,
-			'client_secret' => $google_client_secret,
-			'developer_key' => $google_developer_key,
-		);
-	}
-}
