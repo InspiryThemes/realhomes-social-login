@@ -106,8 +106,6 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 	 */
 	function rsl_twitter_oauth_url() {
 
-		// use Abraham\TwitterOAuth\TwitterOAuth;
-
 		if ( class_exists( 'Abraham\TwitterOAuth\TwitterOAuth' ) ) {
 			session_start();
 

@@ -60,8 +60,6 @@ if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
 	 */
 	function rsl_google_oauth_login() {
 
-		$allowed_html = array(); // TODO: remove this line of code if not needed.
-
 		$google_app_creds     = rsl_google_app_creds();
 		$google_client_id     = $google_app_creds['client_id'];
 		$google_client_secret = $google_app_creds['client_secret'];
