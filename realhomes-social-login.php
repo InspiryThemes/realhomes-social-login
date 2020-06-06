@@ -86,7 +86,7 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 
 			require_once RSL_PLUGIN_DIR . 'includes/libs/twitter/autoload.php';
 
-			require_once RSL_PLUGIN_DIR . 'includes/social-login-settings.php';
+			require_once RSL_PLUGIN_DIR . 'includes/admin/realhomes-social-settings.php';
 
 		}
 
