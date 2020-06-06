@@ -68,7 +68,7 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 
 							<tr>
 								<th>
-									<h3>Facebook</h3>
+									<h3><?php esc_html_e( 'Facebook', 'realhomes-social-login' ); ?></h3>
 								</th>
 							</tr>
 
@@ -109,7 +109,7 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 
 							<tr>
 								<th>
-									<h3>Google</h3>
+									<h3><?php esc_html_e( 'Google', 'realhomes-social-login' ); ?></h3>
 								</th>
 							</tr>
 
@@ -160,7 +160,7 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 
 							<tr>
 								<th>
-									<h3>Twitter</h3>
+									<h3><?php esc_html_e( 'Twitter', 'realhomes-social-login' ); ?></h3>
 								</th>
 							</tr>
 
