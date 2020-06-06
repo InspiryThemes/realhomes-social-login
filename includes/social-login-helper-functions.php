@@ -1,4 +1,11 @@
 <?php
+/**
+ * Plugin helper functions.
+ *
+ * @since      1.0.0
+ * @package    realhomes-social-login
+ * @subpackage realhomes-social-login/includes
+ */
 
 if ( ! function_exists( 'realhomes_social_login_buttons' ) ) {
 	/**
@@ -48,4 +55,47 @@ if ( ! function_exists( 'realhomes_social_login_buttons' ) ) {
 	}
 
 	add_action( 'realhomes_social_login', 'realhomes_social_login_buttons' );
+}
+
+if ( ! function_exists( 'rsl_app_keys' ) ) {
+	/**
+	 * Return App keys based on given social network name.
+	 *
+	 * @param  string $social_network Name of social network.
+	 * @return null|array
+	 */
+	function rsl_app_keys( $social_network = '' ) {
+
+		if ( empty( $social_network ) ) {
+			return null;
+		}
+
+		$rsl_settings = get_option( 'rsl_settings' );
+
+		if ( 'facebook' === $social_network ) {
+			if ( ! empty( $rsl_settings['facebook_app_id'] ) && ! empty( $rsl_settings['facebook_app_secret'] ) ) {
+				return array(
+					'app_id'     => $rsl_settings['facebook_app_id'],
+					'app_secret' => $rsl_settings['facebook_app_secret'],
+				);
+			}
+		} elseif ( 'google' === $social_network ) {
+			if ( ! empty( $rsl_settings['google_app_api_key'] ) && ! empty( $rsl_settings['google_app_client_id'] ) && ! empty( $rsl_settings['google_app_client_secret'] ) ) {
+				return array(
+					'api_key'       => $rsl_settings['google_app_api_key'],
+					'client_id'     => $rsl_settings['google_app_client_id'],
+					'client_secret' => $rsl_settings['google_app_client_secret'],
+				);
+			}
+		} elseif ( 'twitter' === $social_network ) {
+			if ( ! empty( $rsl_settings['twitter_app_consumer_key'] ) && ! empty( $rsl_settings['twitter_app_consumer_secret'] ) ) {
+				return array(
+					'consumer_key'    => $rsl_settings['twitter_app_consumer_key'],
+					'consumer_secret' => $rsl_settings['twitter_app_consumer_secret'],
+				);
+			}
+		}
+
+		return null;
+	}
 }
