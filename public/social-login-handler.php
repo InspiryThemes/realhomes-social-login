@@ -15,8 +15,18 @@ if ( ! function_exists( 'rsl_facebook_oauth_url' ) ) {
 		// Facebook library.
 		require_once RSL_PLUGIN_DIR . 'includes/libs/facebook/autoload.php';
 
-		// TODO: separate these errors of library and keys.
-		if ( class_exists( 'Facebook\Facebook' ) && null !== rsl_app_keys( 'facebook' ) ) {
+		if ( class_exists( 'Facebook\Facebook' ) ) {
+
+			if ( null === rsl_app_keys( 'facebook' ) ) {
+				echo wp_json_encode(
+					array(
+						'success' => false,
+						'message' => esc_html__( 'Facebook App keys are not set yet.', 'realhomes-social-login' ),
+					)
+				);
+
+				wp_die();
+			}
 
 			$fb_app_keys = rsl_app_keys( 'facebook' );
 
@@ -58,7 +68,7 @@ if ( ! function_exists( 'rsl_facebook_oauth_url' ) ) {
 
 if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 	/**
-	 * Return the facebook login authorization url.
+	 * Return the google login authorization url.
 	 */
 	function rsl_google_oauth_url() {
 
@@ -66,7 +76,18 @@ if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 		require_once RSL_PLUGIN_DIR . 'includes/libs/google/Google_Client.php';
 		require_once RSL_PLUGIN_DIR . 'includes/libs/google/contrib/Google_Oauth2Service.php';
 
-		if ( class_exists( 'Google_Client' ) && class_exists( 'Google_Oauth2Service' ) && null !== rsl_app_keys( 'google' ) ) {
+		if ( class_exists( 'Google_Client' ) && class_exists( 'Google_Oauth2Service' ) ) {
+
+			if ( null === rsl_app_keys( 'google' ) ) {
+				echo wp_json_encode(
+					array(
+						'success' => false,
+						'message' => esc_html__( 'Google related keys are not set yet.', 'realhomes-social-login' ),
+					)
+				);
+
+				wp_die();
+			}
 
 			$google_app_creds     = rsl_app_keys( 'google' );
 			$google_client_id     = $google_app_creds['client_id'];
@@ -83,7 +104,6 @@ if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 			$client->setRedirectUri( $google_redirect_url );
 			$client->setScopes( array( 'email', 'profile' ) );
 
-			// $google_oauthV2 = new Google_Oauth2Service($client); // TODO: remove this line of code after testing.
 			$oauth_url = $client->createAuthUrl();
 
 			echo wp_json_encode(
@@ -119,7 +139,18 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 		// Twitter library.
 		require_once RSL_PLUGIN_DIR . 'includes/libs/twitter/autoload.php';
 
-		if ( class_exists( 'Abraham\TwitterOAuth\TwitterOAuth' ) && null !== rsl_app_keys( 'twitter' ) ) {
+		if ( class_exists( 'Abraham\TwitterOAuth\TwitterOAuth' ) ) {
+
+			if ( null === rsl_app_keys( 'twitter' ) ) {
+				echo wp_json_encode(
+					array(
+						'success' => false,
+						'message' => esc_html__( 'Twitter App keys are not set yet.', 'realhomes-social-login' ),
+					)
+				);
+
+				wp_die();
+			}
 
 			$twitter_app_keys = rsl_app_keys( 'twitter' );
 			$consumer_key     = $twitter_app_keys['consumer_key'];
