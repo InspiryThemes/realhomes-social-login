@@ -82,7 +82,7 @@ if ( ! class_exists( 'Realhomes_Social_Login_Settings' ) ) {
 										$enable_social_login_facebook = ! empty( $rsl_settings['enable_social_login_facebook'] ) ? $rsl_settings['enable_social_login_facebook'] : '';
 									?>
 									<input id="rsl_settings[enable_social_login_facebook]" name="rsl_settings[enable_social_login_facebook]" type="checkbox" value="1" <?php checked( 1, $enable_social_login_facebook ); ?> />
-									<label class="description" for="rsl_settings[enable_social_login_facebook]"><?php esc_html_e( 'Enable facebook social login on login forms.', 'realhomes-social-login' ); ?></label>
+									<label class="description" for="rsl_settings[enable_social_login_facebook]"><?php esc_html_e( 'Enable login/register with facebook on login forms.', 'realhomes-social-login' ); ?></label>
 								</td>
 							</tr>
 
