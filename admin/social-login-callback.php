@@ -130,7 +130,7 @@ if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
 			$google_app_creds     = rsl_app_keys( 'google' );
 			$google_client_id     = $google_app_creds['client_id'];
 			$google_client_secret = $google_app_creds['client_secret'];
-			$google_developer_key = $google_app_creds['developer_key'];
+			$google_developer_key = $google_app_creds['api_key'];
 			$google_redirect_url  = home_url();
 
 			$google_client = new Google_Client();
