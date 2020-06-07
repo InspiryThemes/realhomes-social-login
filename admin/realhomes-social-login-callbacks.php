@@ -229,7 +229,7 @@ if ( ! function_exists( 'rsl_social_login' ) ) {
 	 */
 	function rsl_social_login( $login_creds ) {
 
-		$user_signon = wp_signon( $login_creds, false );
+		$user_signon = wp_signon( $login_creds, true );
 
 		if ( is_wp_error( $user_signon ) ) {
 			wp_safe_redirect( home_url() );
