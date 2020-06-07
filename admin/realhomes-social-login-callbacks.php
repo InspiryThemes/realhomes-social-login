@@ -1,6 +1,7 @@
 <?php
 /**
- * Social login callback functions.
+ * Social login callbacks catcher functions.
+ * These functions also manage user registeration and sign-in.
  *
  * @since      1.0.0
  * @package    realhomes-social-login

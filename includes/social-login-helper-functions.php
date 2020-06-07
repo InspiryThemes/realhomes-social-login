@@ -1,6 +1,7 @@
 <?php
 /**
- * Plugin helper functions.
+ * Plugin helper functions, such as social login buttons markup
+ * and social apps keys retriveral.
  *
  * @since      1.0.0
  * @package    realhomes-social-login

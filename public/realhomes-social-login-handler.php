@@ -2,6 +2,7 @@
 /**
  * This file is responsible to handle all plugin ajax requests.
  *
+ * @since      1.0.0
  * @package    realhomes-social-login
  * @subpackage realhomes-social-login/public
  */
