@@ -21,7 +21,9 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
-
+	/**
+	 * Main class of plugin that manage all assets and plugin instance.
+	 */
 	class Realhomes_Social_Login {
 
 		/**
@@ -80,7 +82,7 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 			require_once RSL_PLUGIN_DIR . 'includes/social-login-helper-functions.php';
 			require_once RSL_PLUGIN_DIR . 'public/social-login-handler.php';
 			require_once RSL_PLUGIN_DIR . 'admin/social-login-callback.php';
-			require_once RSL_PLUGIN_DIR . 'admin/realhomes-social-login-settings.php';
+			require_once RSL_PLUGIN_DIR . 'admin/class-realhomes-social-login-settings.php';
 		}
 
 		/**
@@ -101,12 +103,6 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 			wp_enqueue_script( 'realhomes_social_login' );
 		}
 
-		/**
-		 * Enqueue admin scripts.
-		*/
-		public function enqueue_admin_scripts() {
-			// add_action( 'admin_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		}
 	}
 
 } // End if class_exists check.

@@ -2,7 +2,7 @@
 /**
  * RealHomes Social Login Settings.
  *
- * This class is used to initialize the settings page of this plugin.
+ * This class is used to add the settings page of this plugin.
  *
  * @since      1.0.0
  * @package    realhomes-social-login
