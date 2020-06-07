@@ -47,7 +47,7 @@ if ( ! function_exists( 'rsl_facebook_oauth_url' ) ) {
 				array(
 					'success'   => true,
 					'oauth_url' => $oauth_url,
-					'message'   => esc_html__( 'Redirecting you to facebook for the authentication...', 'realhomes-social-login' ),
+					'message'   => esc_html__( 'Redirecting you to the Facebook for the authentication...', 'realhomes-social-login' ),
 				)
 			);
 		} else {
@@ -110,7 +110,7 @@ if ( ! function_exists( 'rsl_google_oauth_url' ) ) {
 				array(
 					'success'   => true,
 					'oauth_url' => $oauth_url,
-					'message'   => esc_html__( 'Redirecting you to google for the authentication...', 'realhomes-social-login' ),
+					'message'   => esc_html__( 'Redirecting you to the Google for the authentication...', 'realhomes-social-login' ),
 				)
 			);
 
@@ -167,7 +167,7 @@ if ( ! function_exists( 'rsl_twitter_oauth_url' ) ) {
 					array(
 						'success'   => true,
 						'oauth_url' => $oauth_url,
-						'message'   => esc_html__( 'Redirecting you to twitter for the authentication...', 'realhomes-social-login' ),
+						'message'   => esc_html__( 'Redirecting you to the Twitter for the authentication...', 'realhomes-social-login' ),
 					)
 				);
 
