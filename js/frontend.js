@@ -2,9 +2,9 @@
 	
 	$('.rsl-provider').on('click', function(e){
 
-		var $provider = $( this ).data('provider');
-
-		console.log('rsl_'+ $provider +'_oauth_url');
+		var $provider_btn = $(this);
+		var $provider     = $(this).data('provider');
+		var $msg_wrap     = $('.rsl-ajax-message');
 
         $.ajax({
             type: 'POST',
@@ -14,21 +14,25 @@
                 'action' : 'rsl_'+ $provider +'_oauth_url'
             },
             beforeSend: function( ) {
-                console.log('sending...');
+				$provider_btn.addClass('in-progress');
+				$msg_wrap.removeClass('error');
+				$msg_wrap.text('');
             },
             complete: function(){
-                console.log('completed!');
+				$provider_btn.removeClass('in-progress');
             },
             success: function (response) {
-				console.log('success!');
                if(response.success){
+				$msg_wrap.text(response.message);
 				 window.location.replace(response.oauth_url);
 			   } else {
-				   console.log(response);
+				   $msg_wrap.addClass('error');
+				   $msg_wrap.text(response.message);
 			   }
             },
             error: function(error) {
-                console.log(error);
+				$msg_wrap.addClass('error');
+				$msg_wrap.text(error);
             }
         });
 	});
