@@ -47,6 +47,7 @@ if ( ! function_exists( 'realhomes_social_login_buttons' ) ) {
 						}
 						?>
 					</div>
+					<div class="rsl-ajax-message"></div>
 				</div>
 			</div>
 			<?php
