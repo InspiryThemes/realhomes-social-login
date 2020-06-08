@@ -216,6 +216,8 @@ if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 				$login_creds['remember']      = true;
 
 				rsl_social_login( $login_creds );
+			} else {
+				wp_safe_redirect( home_url() );
 			}
 		}
 	}
