@@ -201,8 +201,8 @@ if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 			$register_cred['user_login']    = $register_cred['user_login'][0];
 			$register_cred['display_name']  = $user['name'];
 			$register_cred['first_name']    = explode( ' ', $user['name'] );
+			$register_cred['last_name']     = isset( $register_cred['first_name'][1] ) ? $register_cred['first_name'][1] : '';
 			$register_cred['first_name']    = $register_cred['first_name'][0];
-			$register_cred['last_name']     = isset( $user['first_name'][1] ) ? $user['first_name'][1] : '';
 			$register_cred['profile_image'] = str_replace( '_normal', '_400x400', $user['profile_image_url_https'] );
 			$register_cred['user_pass']     = $user['id'];
 
