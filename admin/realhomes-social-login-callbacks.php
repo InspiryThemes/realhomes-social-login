@@ -259,7 +259,7 @@ if ( ! function_exists( 'rsl_social_register' ) ) {
 
 		if ( ! is_wp_error( $user_id ) ) {
 
-			$profile_image_id = rsl_insert_image( $register_cred['profile_image'], $register_cred['user_login'] . '.png' );
+			$profile_image_id = rsl_insert_image( $register_cred['profile_image'], $register_cred['user_login'] . wp_rand( 100, 1000 ) . '.png' );
 			update_user_meta( $user_id, 'profile_image_id', $profile_image_id );
 
 			// User notification function exists in plugin.
