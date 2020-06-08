@@ -259,7 +259,7 @@ if ( ! function_exists( 'rsl_social_register' ) ) {
 
 		if ( ! is_wp_error( $user_id ) ) {
 
-			$profile_image_id = rsl_insert_image( $register_cred['profile_image'] );
+			$profile_image_id = rsl_insert_image( $register_cred['profile_image'], $register_cred['user_login'] . '.png' );
 			update_user_meta( $user_id, 'profile_image_id', $profile_image_id );
 
 			// User notification function exists in plugin.
@@ -280,13 +280,17 @@ if ( ! function_exists( 'rsl_insert_image' ) ) {
 	 * Insert an image to the WordPress library from given image url.
 	 *
 	 * @param  string $image_url URL of the image that needs to be inserted.
+	 * @param  string $filename The name of image file.
 	 * @return int    $attached_id ID of the image that has been inserted.
 	 */
-	function rsl_insert_image( $image_url ) {
+	function rsl_insert_image( $image_url, $filename = '' ) {
 
 		$upload_dir = wp_upload_dir();
 		$image_data = file_get_contents( $image_url );
-		$filename   = basename( $image_url );
+
+		if ( empty( $filename ) ) {
+			$filename = basename( $image_url );
+		}
 
 		if ( wp_mkdir_p( $upload_dir['path'] ) ) {
 			$file = $upload_dir['path'] . '/' . $filename;
@@ -296,7 +300,8 @@ if ( ! function_exists( 'rsl_insert_image' ) ) {
 
 		file_put_contents( $file, $image_data );
 
-		$wp_filetype = wp_check_filetype( $filename, null );
+		// $wp_filetype = wp_check_filetype( $filename, null );
+		$wp_filetype['type'] = 'image/png';
 
 		$attachment = array(
 			'post_mime_type' => $wp_filetype['type'],
