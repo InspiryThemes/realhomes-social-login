@@ -82,7 +82,6 @@ if ( ! class_exists( 'Realhomes_Social_Login' ) ) {
 			require_once RSL_PLUGIN_DIR . 'includes/realhomes-social-login-helper-functions.php';
 			require_once RSL_PLUGIN_DIR . 'public/realhomes-social-login-handler.php';
 			require_once RSL_PLUGIN_DIR . 'admin/realhomes-social-login-callbacks.php';
-			require_once RSL_PLUGIN_DIR . 'admin/class-realhomes-social-login-settings.php';
 		}
 
 		/**
