@@ -278,6 +278,17 @@ if ( ! function_exists( 'rsl_social_register' ) ) {
 		}
 
 		return false;
+if ( ! function_exists( 'rsl_redirect_user' ) ) {
+	/**
+	 * Redirect user to edit profile page if avaiable, otherwise to homepage.
+	 */
+	function rsl_redirect_user() {
+		$edit_profile_page_url = inspiry_get_edit_profile_url();
+		if ( $edit_profile_page_url ) {
+			wp_safe_redirect( $edit_profile_page_url );
+		} else {
+			wp_safe_redirect( home_url() );
+		}
 	}
 }
 
