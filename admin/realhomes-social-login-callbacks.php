@@ -274,10 +274,16 @@ if ( ! function_exists( 'rsl_social_register' ) ) {
 				ere_new_user_notification( $user_id, $register_cred['user_pass'] );
 			}
 
-			return true;
+			// Login the user.
+			$login_creds['user_login']    = $register_cred['user_login'];
+			$login_creds['user_password'] = $register_cred['user_pass'];
+			rsl_social_login( $login_creds );
 		}
 
-		return false;
+		wp_safe_redirect( home_url() );
+	}
+}
+
 if ( ! function_exists( 'rsl_redirect_user' ) ) {
 	/**
 	 * Redirect user to edit profile page if avaiable, otherwise to homepage.
