@@ -210,19 +210,9 @@ if ( ! function_exists( 'rsl_twitter_oauth_login' ) ) {
 			$register_cred['profile_image'] = str_replace( '_normal', '_400x400', $user['profile_image_url_https'] );
 			$register_cred['user_pass']     = $user['id'];
 
-			$user_registered = rsl_social_register( $register_cred );
+			// Register the user, if succcessfull then login the user.
+			rsl_social_register( $register_cred );
 
-			if ( $user_registered ) {
-
-				$login_creds                  = array();
-				$login_creds['user_login']    = $register_cred['user_login'];
-				$login_creds['user_password'] = $register_cred['user_pass'];
-				$login_creds['remember']      = true;
-
-				rsl_social_login( $login_creds );
-			} else {
-				wp_safe_redirect( home_url() );
-			}
 		}
 	}
 }
@@ -251,12 +241,30 @@ if ( ! function_exists( 'rsl_social_register' ) ) {
 	 * User registeration with social profile information.
 	 *
 	 * @param array $register_cred User registeration credentials.
-	 * @return bool
 	 */
 	function rsl_social_register( $register_cred ) {
 
-		// Register the user.
+		/**
+		 * Check for the existing user against given email.
+		 * If user exists then set it as current user.
+		 */
+		$existing_user = get_user_by( 'email', $register_cred['user_email'] );
+		if ( $existing_user ) {
+			wp_clear_auth_cookie();
+			wp_set_current_user( $existing_user->ID );
+			wp_set_auth_cookie( $existing_user->ID );
+			rsl_redirect_user(); // Redirect the user to the edit profile page.
+		}
+
+		/*
+		* Register the user if username doesn't exist already.
+		* Otherwise add a random string as suffix and register again.
+		*/
 		$user_id = wp_insert_user( $register_cred );
+		if ( is_wp_error( $user_id ) && ( 'Sorry, that username already exists!' === $user_id->get_error_message() ) ) {
+			$register_cred['user_login'] = $register_cred['user_login'] . '_' . wp_rand( 100, 10000 );
+			$user_id                     = wp_insert_user( $register_cred );
+		}
 
 		if ( ! is_wp_error( $user_id ) ) {
 
