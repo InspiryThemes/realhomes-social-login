@@ -240,12 +240,7 @@ if ( ! function_exists( 'rsl_social_login' ) ) {
 		if ( is_wp_error( $user_signon ) ) {
 			wp_safe_redirect( home_url() );
 		} else {
-			$edit_profile_page_url = inspiry_get_edit_profile_url();
-			if ( $edit_profile_page_url ) {
-				wp_safe_redirect( $edit_profile_page_url );
-			} else {
-				wp_safe_redirect( home_url() );
-			}
+			rsl_redirect_user(); // Redirect the user to the edit profile page.
 		}
 		exit;
 	}
