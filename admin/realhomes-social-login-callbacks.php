@@ -239,11 +239,10 @@ if ( ! function_exists( 'rsl_social_register' ) ) {
 		* Register the user if username doesn't exist already.
 		* Otherwise add a random string as suffix and register again.
 		*/
-		$user_id = wp_insert_user( $register_cred );
-		if ( is_wp_error( $user_id ) && ( 'Sorry, that username already exists!' === $user_id->get_error_message() ) ) {
+		if ( username_exists( $register_cred['user_login'] ) ) {
 			$register_cred['user_login'] = $register_cred['user_login'] . '_' . wp_rand( 100, 10000 );
-			$user_id                     = wp_insert_user( $register_cred );
 		}
+		$user_id = wp_insert_user( $register_cred );
 
 		if ( ! is_wp_error( $user_id ) ) {
 
