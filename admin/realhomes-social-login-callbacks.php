@@ -101,19 +101,8 @@ if ( ! function_exists( 'rsl_facebook_oauth_login' ) ) {
 			$register_cred['profile_image'] = 'https://graph.facebook.com/' . $user['id'] . '/picture?width=300&height=300';
 			$register_cred['user_pass']     = $user['id'];
 
-			$user_registered = rsl_social_register( $register_cred );
-
-			if ( $user_registered ) {
-
-				$login_creds                  = array();
-				$login_creds['user_login']    = $register_cred['user_login'];
-				$login_creds['user_password'] = $register_cred['user_pass'];
-				$login_creds['remember']      = true;
-
-				rsl_social_login( $login_creds );
-			} else {
-				wp_safe_redirect( home_url() );
-			}
+			// Register the user, if succcessfull then login the user.
+			rsl_social_register( $register_cred );
 		}
 	}
 }
@@ -161,19 +150,8 @@ if ( ! function_exists( 'rsl_google_oauth_login' ) ) {
 				$register_cred['profile_image'] = $user['picture'];
 				$register_cred['user_pass']     = $user['id'];
 
-				$user_registered = rsl_social_register( $register_cred );
-
-				if ( $user_registered ) {
-
-					$login_creds                  = array();
-					$login_creds['user_login']    = $register_cred['user_login'];
-					$login_creds['user_password'] = $register_cred['user_pass'];
-					$login_creds['remember']      = true;
-
-					rsl_social_login( $login_creds );
-				} else {
-					wp_safe_redirect( home_url() );
-				}
+				// Register the user, if succcessfull then login the user.
+				rsl_social_register( $register_cred );
 			}
 		}
 	}
@@ -254,6 +232,7 @@ if ( ! function_exists( 'rsl_social_register' ) ) {
 			wp_set_current_user( $existing_user->ID );
 			wp_set_auth_cookie( $existing_user->ID );
 			rsl_redirect_user(); // Redirect the user to the edit profile page.
+			exit;
 		}
 
 		/*
